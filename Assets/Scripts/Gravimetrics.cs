@@ -1,15 +1,19 @@
-﻿using System.Collections;
+﻿/// <summary>
+/// GRAVIMETRICS gravity physics script
+/// </summary>
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum Body { planet,satellite };
+public enum Body { planet, satellite }; //enumeration of body types
 
 public class Gravimetrics : MonoBehaviour
 {
 	//inspector variables
 	public Body body; //type of body this object is
 	public Rigidbody rb; //object's rigidbody
-	public float fltAcceleration; //satellite's acceleration
+	public float fltAcceleration; //object's acceleration (only used if object is a satellite)
 	
 	//internal variables
 	private const float fltG = 6674f; //gravitational constant
@@ -17,14 +21,12 @@ public class Gravimetrics : MonoBehaviour
 	
     void Update()
     {
-        //usage: frame updates; continuously applies orbit motion to all non-planet bodies
+        //usage: frame updates; continuously applies orbit motion to all satellite bodies
 
         foreach (Gravimetrics obj in lstGravimetrics)
         {
-			if (obj != this && obj.body != Body.satellite)
-			{
+			if (obj != this && obj.body != Body.satellite) //if object in list isn't this object OR if object in list isn't also a satellite
 				Orbit();
-			}
         }
     }
 	
@@ -34,7 +36,7 @@ public class Gravimetrics : MonoBehaviour
 
 		foreach (Gravimetrics obj in lstGravimetrics)
 		{
-			if (obj != this)
+			if (obj != this) //if object in list isn't this object
                 Attract(obj);
 		}
 	}
@@ -71,7 +73,7 @@ public class Gravimetrics : MonoBehaviour
 
     void Orbit()
     {
-		//applies specified accelerate to create an orbit
+		//usage: applies specified accelerate to create an orbit
 		transform.position += Vector3.forward * Time.deltaTime * fltAcceleration;
     }
 }

@@ -1,4 +1,8 @@
-﻿using System.Collections;
+﻿/// <summary>
+/// OBJECT ROTATOR script
+/// </summary>
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
