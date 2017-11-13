@@ -76,10 +76,4 @@ public class Gravimetrics : MonoBehaviour
 		//usage: applies specified accelerate to create an orbit
 		transform.position += Vector3.forward * Time.deltaTime * fltAcceleration;
     }
-
-	void drawPrototype()
-	{
-		//usage: draws a predictive orbit line
-
-	}
 }
