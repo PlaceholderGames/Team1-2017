@@ -17,7 +17,7 @@ public class Gravimetrics : MonoBehaviour
             ApplyStationaryGravity();
     }
 
-    Vector3 GetMovementGravity()
+    public Vector3 GetMovementGravity()
     {
         //purpose: calculates satellite's attraction towards a planetary body when on the move
         //pre-condition: method is called when the object is moving and is within range of a planet
@@ -29,11 +29,13 @@ public class Gravimetrics : MonoBehaviour
         //5) translate force into Attraction vector3
         //6) return Attraction vector3
 
-        Vector3 Attraction = new Vector3(0.0f, 0.0f, 0.0f);
+        Vector3 vctDirection = objToOrbit.GetComponent<Rigidbody>().position - GetComponent<Rigidbody>().position;
+        float fltDistance = vctDirection.magnitude;
+        Vector3 Attraction = vctDirection.normalized * fltDistance;
         return Attraction;
     }
 
-    void ApplyStationaryGravity()
+    public void ApplyStationaryGravity()
     {
         //purpose: calculates satellite's attraction towards a planetary body when stationary
         
@@ -45,11 +47,7 @@ public class Gravimetrics : MonoBehaviour
 
         Vector3 vctDirection = objToOrbit.GetComponent<Rigidbody>().position - GetComponent<Rigidbody>().position;
         float fltDistance = vctDirection.magnitude;
-        if (fltDistance <= 20)
-        {
-
-        }
-
+        GetComponent<Rigidbody>().AddForce(vctDirection.normalized * fltDistance);
     }
     
 }
