@@ -18,7 +18,6 @@ public class SimplePush : MonoBehaviour
     void FixedUpdate()
     {
         Vector3 vctMovement = new Vector3(fltStepper, 0.0f, 0.0f);
-
         rb.AddForce(vctMovement * fltVelocity);
 	}
 }

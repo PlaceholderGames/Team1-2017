@@ -7,6 +7,16 @@ using UnityEngine;
 
 public class Gravimetrics : MonoBehaviour
 {
+    public bool boolAllowFixedStationary = true; //tells FixedUpdate to run the stationary method for debugging
+    public GameObject objToOrbit; //object to orbit (singular object for demo)
+    private GameObject objThis;
+
+    void FixedUpdate()
+    {
+        if (boolAllowFixedStationary)
+            ApplyStationaryGravity();
+    }
+
     Vector3 GetMovementGravity()
     {
         //purpose: calculates satellite's attraction towards a planetary body when on the move
@@ -26,11 +36,20 @@ public class Gravimetrics : MonoBehaviour
     void ApplyStationaryGravity()
     {
         //purpose: calculates satellite's attraction towards a planetary body when stationary
-
+        
         //1) get closest body
-        //2) calculate relative distance
-        //3) calculate force 
-        //4) push object towards body directly
+        //2) calculate relative direction
+        //3) calculate distance
+        //4) calculate force 
+        //5) push object towards body directly
+
+        Vector3 vctDirection = objToOrbit.GetComponent<Rigidbody>().position - GetComponent<Rigidbody>().position;
+        float fltDistance = vctDirection.magnitude;
+        if (fltDistance <= 20)
+        {
+
+        }
+
     }
     
 }
