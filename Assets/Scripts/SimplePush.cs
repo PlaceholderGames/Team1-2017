@@ -6,8 +6,8 @@ using UnityEngine;
 
 public class SimplePush : MonoBehaviour
 {
-    public float fltVelocity = 1000f;
-    public float fltStepper = 10f;
+    public float fltVelocity = 10.0f;
+    public float fltStepper = 10.0f;
     public Gravimetrics gv;
 
     void FixedUpdate()

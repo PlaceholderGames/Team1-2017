@@ -9,7 +9,10 @@ public class Gravimetrics : MonoBehaviour
 {
     public bool boolAllowFixedStationary = true; //tells FixedUpdate to run the stationary method for debugging
     public GameObject objToOrbit; //object to orbit (singular object for demo)
-    private GameObject objThis;
+    public float fltIntensity = 0.1f; //scales gravity down
+
+    //internal variables
+	private const float fltG = 6674f; //gravitational constant
 
     void FixedUpdate()
     {
@@ -22,17 +25,18 @@ public class Gravimetrics : MonoBehaviour
         //purpose: calculates satellite's attraction towards a planetary body when on the move
         //pre-condition: method is called when the object is moving and is within range of a planet
 
-        //1) declare Attraction vector3
-        //2) get closest body
-        //3) calculate relative distance
-        //4) calculate force needed to adjust its position
-        //5) translate force into Attraction vector3
-        //6) return Attraction vector3
 
         Vector3 vctDirection = objToOrbit.GetComponent<Rigidbody>().position - GetComponent<Rigidbody>().position;
         float fltDistance = vctDirection.magnitude;
-        Vector3 Attraction = vctDirection.normalized * fltDistance;
-        return Attraction;
+        float fltMagnitude = fltG * ((objToOrbit.GetComponent<Rigidbody>().mass * GetComponent<Rigidbody>().mass) / Mathf.Pow(fltDistance, 2)); //calculates the magnitude of the gravitational force
+        Vector3 vctForce = vctDirection.normalized * fltMagnitude;
+        return vctForce;
+
+        //Vector3 vctDirection = objToOrbit.GetComponent<Rigidbody>().position - GetComponent<Rigidbody>().position;
+        //float fltDistance = vctDirection.magnitude;
+        //Vector3 Attraction = vctDirection.normalized * (fltDistance * fltIntensity);
+        //return Attraction;
+        //return new Vector3(0.0f, 0.0f, 0.0f);
     }
 
     public void ApplyStationaryGravity()
@@ -49,5 +53,25 @@ public class Gravimetrics : MonoBehaviour
         float fltDistance = vctDirection.magnitude;
         GetComponent<Rigidbody>().AddForce(vctDirection.normalized * fltDistance);
     }
-    
+
+ //   void Attract(Gravimetrics objToAttract)
+	//{
+	//	//usage: applies gravity via Newton's law of universal gravitation
+	//	//parametres: (objToAttract) object that needs to have gravity applied
+
+	//	Rigidbody rbToAttract = objToAttract.rb; //allows access of information from the other object's rigidbody
+	//	Vector3 vctDirection = rb.position - rbToAttract.position; 
+	//	float fltDistance = vctDirection.magnitude; 
+	//	if (fltDistance == 0f) //prevents errors with on-the-fly duplication of objects
+	//		return;
+	//	float fltMagnitude = fltG * ((rb.mass * rbToAttract.mass) / Mathf.Pow(fltDistance, 2)); //calculates the magnitude of the gravitational force
+	//	Vector3 vctForce = vctDirection.normalized * fltMagnitude;
+	//	rbToAttract.AddForce(vctForce);
+	//}
+
+ //   void Orbit()
+ //   {
+	//	//usage: applies specified accelerate to create an orbit
+	//	transform.position += Vector3.forward* Time.deltaTime * fltAcceleration;
+ //   }
 }
