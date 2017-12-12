@@ -1,0 +1,24 @@
+fileFormatVersion: 2
+guid: a3898f3bf6c34d940b30f172e98cbd11
+timeCreated: 1513095240
+licenseType: Pro
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Telegrama
+  fontNames:
+  - Telegrama
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: 76a2fab070d7bf64789ef31d65ca4b43, type: 3}
+  - {fileID: 12800000, guid: 9f617718881ec8e4a8c7c8450c5e9a2e, type: 3}
+  - {fileID: 12800000, guid: a19a807d337fb2b4d80bc2fcefbb13c5, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
