@@ -11,6 +11,7 @@ public class ShipMovement : MonoBehaviour {
 
     Rigidbody ship;
     public Gravimetrics gv;
+    public Camera cm;
 
     void Start ()
     {
@@ -36,7 +37,7 @@ public class ShipMovement : MonoBehaviour {
         }
 
         //if both keys W and LShift are held
-        if (Input.GetKey(KeyCode.LeftShift) & Input.GetKey(KeyCode.W))
+            if (Input.GetKey(KeyCode.LeftShift) & Input.GetKey(KeyCode.W))
         {
             //apply additional force in direction of local Z axis
             Vector2 vctAttraction = gv.GetMovementGravity();
