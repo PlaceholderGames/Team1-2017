@@ -23,7 +23,7 @@ public class Gravimetrics : MonoBehaviour
         //purpose: calculates satellite's attraction towards a planetary body when on the move
         //pre-condition: method is called when the object is moving and is within range of a planet
 
-        Vector3 vctDirection = objToOrbit.GetComponent<Rigidbody>().position - GetComponent<Rigidbody>().position;
+        Vector3 vctDirection = objToOrbit.GetComponent<Rigidbody>().position - GetComponent<ProbeVariables>().GetPosition();
         float fltDistance = vctDirection.magnitude;
         float fltMagnitude = fltG * ((objToOrbit.GetComponent<Rigidbody>().mass * GetComponent<Rigidbody>().mass) / Mathf.Pow(fltDistance, 2)); //calculates the magnitude of the gravitational force
         Vector3 vctForce = vctDirection.normalized * fltMagnitude;
