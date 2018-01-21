@@ -10,7 +10,8 @@ public class ShipRotation : MonoBehaviour {
     public float controlVar;
 
     Rigidbody ship;
-    Vector2 screenCenter;
+    public Gravimetrics gv;
+    public Vector2 screenCenter;
 
 	void Start () {
         //calculate screen center coordinates
@@ -37,13 +38,17 @@ public class ShipRotation : MonoBehaviour {
         if (Input.GetKey(KeyCode.A))
         {
             //apply torque on axis Z based on rotation speed value -> rotate towards left
-            ship.AddRelativeTorque(0, 0, 1.5f * rotateSpeed * Time.deltaTime);
+            Vector3 vctForce = gv.GetMovementGravity();
+            vctForce.z = 1.5f * rotateSpeed * Time.deltaTime;
+            ship.AddTorque(vctForce);
         }
         //else if key D is help
         else if (Input.GetKey(KeyCode.D))
         {
             //apply torque on axis Z based on rotation speed value -> rotate towards right
-            ship.AddRelativeTorque(0, 0, 1.5f * -rotateSpeed * Time.deltaTime);
+            Vector3 vctForce = gv.GetMovementGravity();
+            vctForce.z = -1.5f * rotateSpeed * Time.deltaTime;
+            ship.AddTorque(vctForce);
         }
 
         //////////////////////////////////////
