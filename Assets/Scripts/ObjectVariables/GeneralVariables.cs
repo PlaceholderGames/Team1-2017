@@ -14,13 +14,14 @@ public class GeneralVariables : MonoBehaviour
     public float GravimetricStrength = 1.0f; //gravimetric strength outputted by entity (used as a factoring variable)
     public bool ObjectFixed = false; //flags whether the entity should be fixed or movable
 
-    virtual public void DerivedStartTasks() { }
+    virtual public void DerivedStartTasks() { } //allows child classes to add start tasks via polymorphism
 
     void Start()
     {
         //purpose: grabs local copy of important Rigidbody values 
         //usage: should only be used if the entity is fixed on the map
 
+        DerivedStartTasks();
         if (ObjectFixed)
         {
             Position = GetComponent<Rigidbody>().position;

@@ -1,11 +1,13 @@
-﻿/// <summary>
-/// NU GRAVITY script
-/// </summary>
+﻿/*
+    purpose: provides gravity interactions to certain objects
+    usage: for anything that is expected to simulate gravimetric behaviour
+*/
+
 using UnityEngine;
 
 public class Gravimetrics : MonoBehaviour
 {
-    public bool boolAllowFixedStationary = true; //tells FixedUpdate to run the stationary method for debugging
+    public bool boolAllowFixedStationary = true; //flags to apply stationary gravity method (as override FOR DEBUGGING)
     public GameObject objToOrbit; //object to orbit (singular object for demo)
     public float fltIntensity = 1.0f; //scales gravity down
 
@@ -14,14 +16,13 @@ public class Gravimetrics : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (boolAllowFixedStationary)
-            ApplyStationaryGravity();
+        if (boolAllowFixedStationary) ApplyStationaryGravity();
     }
 
     public Vector3 GetMovementGravity()
     {
         //purpose: calculates satellite's attraction towards a planetary body when on the move
-        //pre-condition: method is called when the object is moving and is within range of a planet
+        //usage: called when an object is actively being moved by either player or another movement script
 
         Vector3 vctDirection = objToOrbit.GetComponent<Rigidbody>().position - GetComponent<ProbeVariables>().GetPosition();
         float fltDistance = vctDirection.magnitude;
@@ -33,12 +34,7 @@ public class Gravimetrics : MonoBehaviour
     public void ApplyStationaryGravity()
     {
         //purpose: calculates satellite's attraction towards a planetary body when stationary
-        
-        //1) get closest body
-        //2) calculate relative direction
-        //3) calculate distance
-        //4) calculate force 
-        //5) push object towards body directly
+        //usage: called when an object is stationary (in terms of not being controlled by player or other script)
 
         Vector3 vctDirection = objToOrbit.GetComponent<Rigidbody>().position - GetComponent<Rigidbody>().position;
         float fltDistance = vctDirection.magnitude;

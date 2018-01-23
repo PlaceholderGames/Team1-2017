@@ -1,7 +1,8 @@
-﻿/// <summary>
-/// PLACEHOLDER MOVEMENT script
-/// </summary>
-/// 
+﻿/*
+    purpose: debugging movement script
+    usage: only for testing
+*/
+
 using UnityEngine;
 
 public class SimplePush : MonoBehaviour
