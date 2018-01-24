@@ -1,18 +1,26 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿/*
+    purpose: ensures camera moves with player
+    usage: attached to main camera
+*/
+
 using UnityEngine;
 
-public class CameraMovement : MonoBehaviour {
+public class CameraMovement : MonoBehaviour
+{
+    public float YAdjust = 0.0f; //override for adjusting Y-axis of player relative to camera
+    private GameObject probe; //reference to probe object
 
-    Transform playerTransform;
-
-	void Start () {
-        //get/access player transform 
-        playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
+	void Start()
+    {
+        //purpose: captures reference to player by Tag
+        probe = GameObject.FindGameObjectWithTag("Player");
 	}
 	
-	void FixedUpdate () {
-        //lock camera to player position
-        transform.position = playerTransform.position;
+	void FixedUpdate()
+    {
+        //purpose: transforms camera position relative to player
+
+        Vector3 vctPlayerPos = new Vector3(probe.GetComponent<ProbeVariables>().GetPosition().x, probe.GetComponent<ProbeVariables>().GetPosition().y + YAdjust, probe.GetComponent<ProbeVariables>().GetPosition().z);
+        transform.position = vctPlayerPos;
     }
 }
