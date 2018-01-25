@@ -1,9 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class CameraRotate : MonoBehaviour {
-
+public class CameraRotate : MonoBehaviour
+{
     public float rotateSpeed;
     Transform playerTransform;
 

@@ -1,0 +1,164 @@
+fileFormatVersion: 2
+guid: c583d9bcab474e74d8b5e7158d6adb02
+timeCreated: 1516898900
+licenseType: Free
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: Body
+    100002: Connector1
+    100004: Connector2
+    100006: Connector3
+    100008: Connector_
+    100010: Hall1
+    100012: Hall2
+    100014: LeftBeam
+    100016: RightBeam
+    100018: //RootNode
+    100020: Solar1
+    100022: Solar2
+    100024: Solar3
+    100026: Solar4
+    100028: Solar5
+    100030: Solar6
+    100032: Solar7
+    100034: Solar8
+    400000: Body
+    400002: Connector1
+    400004: Connector2
+    400006: Connector3
+    400008: Connector_
+    400010: Hall1
+    400012: Hall2
+    400014: LeftBeam
+    400016: RightBeam
+    400018: //RootNode
+    400020: Solar1
+    400022: Solar2
+    400024: Solar3
+    400026: Solar4
+    400028: Solar5
+    400030: Solar6
+    400032: Solar7
+    400034: Solar8
+    2300000: Body
+    2300002: Connector1
+    2300004: Connector2
+    2300006: Connector3
+    2300008: Connector_
+    2300010: Hall1
+    2300012: Hall2
+    2300014: LeftBeam
+    2300016: RightBeam
+    2300018: Solar1
+    2300020: Solar2
+    2300022: Solar3
+    2300024: Solar4
+    2300026: Solar5
+    2300028: Solar6
+    2300030: Solar7
+    2300032: Solar8
+    3300000: Body
+    3300002: Connector1
+    3300004: Connector2
+    3300006: Connector3
+    3300008: Connector_
+    3300010: Hall1
+    3300012: Hall2
+    3300014: LeftBeam
+    3300016: RightBeam
+    3300018: Solar1
+    3300020: Solar2
+    3300022: Solar3
+    3300024: Solar4
+    3300026: Solar5
+    3300028: Solar6
+    3300030: Solar7
+    3300032: Solar8
+    4300000: Body
+    4300002: Connector1
+    4300004: Connector2
+    4300006: Connector3
+    4300008: Connector_
+    4300010: Hall1
+    4300012: Hall2
+    4300014: LeftBeam
+    4300016: RightBeam
+    4300018: Solar1
+    4300020: Solar2
+    4300022: Solar3
+    4300024: Solar4
+    4300026: Solar5
+    4300028: Solar6
+    4300030: Solar7
+    4300032: Solar8
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

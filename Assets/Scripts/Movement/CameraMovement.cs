@@ -7,7 +7,9 @@ using UnityEngine;
 
 public class CameraMovement : MonoBehaviour
 {
+    public float XAdjust = 0.0f; //override for adjusting X-axis of player relative to camera
     public float YAdjust = 0.0f; //override for adjusting Y-axis of player relative to camera
+    public float ZAdjust = 0.0f; //override for adjusting Z-axis of player relative to camera
     private GameObject probe; //reference to probe object
 
 
@@ -19,7 +21,7 @@ public class CameraMovement : MonoBehaviour
 
     void Update()
     {
-        Vector3 vctPlayerPos = new Vector3(probe.GetComponent<ProbeVariables>().GetPosition().x, probe.GetComponent<ProbeVariables>().GetPosition().y + YAdjust, probe.GetComponent<ProbeVariables>().GetPosition().z);
+        Vector3 vctPlayerPos = new Vector3(probe.GetComponent<ProbeVariables>().GetPosition().x + XAdjust, probe.GetComponent<ProbeVariables>().GetPosition().y + YAdjust, probe.GetComponent<ProbeVariables>().GetPosition().z + ZAdjust);
         transform.position = vctPlayerPos;
     }
 }

@@ -8,8 +8,8 @@ using UnityEngine;
 public class ProbeVariables : GeneralVariables
 {
     //probe module stats
-    private float CommunicationDistance = 1000.0f; //distance the probe can communicate over
-    private float Fuel = 1000.0f; //range the probe can travel before being stranded
+    private float CommunicationDistance = 10000.0f; //distance the probe can communicate over
+    private float Fuel = 10000.0f; //range the probe can travel before being stranded
     private int PowerGenerationBonus = 0; //bonus from power generation
     private int SensorCapacityBonus = 0; //bonus from sensor capacity
 
@@ -39,6 +39,7 @@ public class ProbeVariables : GeneralVariables
     //variable getters
     public float GetCommunicationDistance() { return CommunicationDistance; }
     public float GetFuel() { return Fuel; }
+    public int GetFuelRounded() { return (int)System.Math.Round(Fuel); }
     public float GetPowerGeneration() { return PowerGenerationBonus; }
     public float GetSensorCapacity() { return SensorCapacityBonus; }
     public int GetTier() { return OverallTier; }

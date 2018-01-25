@@ -13,11 +13,6 @@ public class StaticOrbit : MonoBehaviour
 
     void FixedUpdate()
     {
-        Orbit();
-    }
-
-    public void Orbit()
-    {
         //purpose: calculates path for object to move with
 
         point = objToOrbit.GetComponent<GeneralVariables>().GetPosition() - GetComponent<GeneralVariables>().GetPosition(); //work out positional distance
