@@ -21,12 +21,19 @@ public class ProbeVariables : GeneralVariables
     private int OverallTier = 1; //overall tier of probe
 
     //other stats
-    public int Materials = 0;
+    private float Speed = 0;
+    private int Materials = 0;
 
     void Update()
     {
         //purpose: ensures overall tier is correct
         OverallTier = (int)System.Math.Round((double)((CATier + FTTier + PGTier + SSTier) / 4));
+    }
+
+    override public void DerivedFixedUpdateTasks()
+    {
+        //purpose: get probe's velocity
+        Speed = (float)(GetComponent<Rigidbody>().velocity.magnitude * 3.6); //multiplying result by 3.6 converts m/s to KPH
     }
 
     //variable getters
@@ -35,6 +42,8 @@ public class ProbeVariables : GeneralVariables
     public float GetPowerGeneration() { return PowerGenerationBonus; }
     public float GetSensorCapacity() { return SensorCapacityBonus; }
     public int GetTier() { return OverallTier; }
+    public float GetSpeed() { return Speed; }
+    public int GetMaterialsCount() { return Materials; }
 
     //variable setters
     public void SetFuel(float newFuelVal) { Fuel = newFuelVal; }

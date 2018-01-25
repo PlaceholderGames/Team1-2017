@@ -15,6 +15,7 @@ public class GeneralVariables : MonoBehaviour
     public bool ObjectFixed = false; //flags whether the entity should be fixed or movable
 
     virtual public void DerivedStartTasks() { } //allows child classes to add start tasks via polymorphism
+    virtual public void DerivedFixedUpdateTasks() { } //allows child classes to add fixed update tasks via polymorphism
 
     void Start()
     {
@@ -34,6 +35,7 @@ public class GeneralVariables : MonoBehaviour
         //purpose: continously grabs local copy of important Rigidbody values
         //usage: should only be used if the entity is expected to move
 
+        DerivedFixedUpdateTasks();
         if (!ObjectFixed) //only allow update if object is not fixed
         {
             Position = GetComponent<Rigidbody>().position;

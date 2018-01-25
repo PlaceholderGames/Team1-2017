@@ -7,16 +7,15 @@ using UnityEngine;
 
 public class Gravimetrics : MonoBehaviour
 {
-    public bool boolAllowFixedStationary = true; //flags to apply stationary gravity method (as override FOR DEBUGGING)
+    public bool AllowFixedStationary = true; //flags to apply stationary gravity method (as override FOR DEBUGGING)
     public GameObject objToOrbit; //object to orbit (singular object for demo)
-    public float fltIntensity = 1.0f; //gravimetric scale override
+    public float intensity = 1.0f; //gravimetric scale override
 
-	private const float fltG = 500f; //gravitational constant
+	private const float G = 6.67408f; //gravitational constant
 
     void FixedUpdate()
     {
-      
-        if (boolAllowFixedStationary) ApplyStationaryGravity();
+        if (AllowFixedStationary) ApplyStationaryGravity();
     }
 
     public Vector3 GetMovementGravity()
@@ -26,8 +25,8 @@ public class Gravimetrics : MonoBehaviour
 
         Vector3 vctDirection = objToOrbit.GetComponent<Rigidbody>().position - GetComponent<ProbeVariables>().GetPosition();
         float fltDistance = vctDirection.magnitude;
-        float fltMagnitude = fltG * ((objToOrbit.GetComponent<Rigidbody>().mass * GetComponent<Rigidbody>().mass) / Mathf.Pow(fltDistance, 2)); //calculates the magnitude of the gravitational force
-        Vector3 vctForce = vctDirection.normalized * (fltMagnitude * fltIntensity);
+        float fltMagnitude = G * ((objToOrbit.GetComponent<Rigidbody>().mass * GetComponent<Rigidbody>().mass) / Mathf.Pow(fltDistance, 2)); //calculates the magnitude of the gravitational force
+        Vector3 vctForce = vctDirection.normalized * (fltMagnitude * intensity);
         return vctForce;
     }
 
