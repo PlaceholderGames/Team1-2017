@@ -11,7 +11,7 @@ public class QuitOnClick : MonoBehaviour
         UnityEditor.EditorApplication.isPlaying = false;
 
 #else
-    Applciation.Quit();
+    Application.Quit();
 #endif
     }
 }

@@ -35,7 +35,7 @@ public class QuitOnEnter : StateMachineBehaviour {
         UnityEditor.EditorApplication.isPlaying = false;
 
 #else
-        Applciation.Quit();
+        Application.Quit();
 #endif
     }
 }
