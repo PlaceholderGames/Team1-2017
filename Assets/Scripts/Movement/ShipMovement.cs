@@ -65,7 +65,7 @@ public class ShipMovement : MonoBehaviour
                 probe.GetComponent<ProbeVariables>().SetFuel(probe.GetComponent<ProbeVariables>().GetFuel() - normalFuelRate);
 
                 //enable engine effects
-                lensflare.GetComponent<LensFlare>().brightness = 0.75f;
+                lensflare.GetComponent<LensFlare>().brightness = 0.5f;
                 particles.GetComponent<ParticleSystem>().Play();
             }
             else

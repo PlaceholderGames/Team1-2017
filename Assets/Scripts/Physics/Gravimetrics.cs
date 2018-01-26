@@ -28,15 +28,15 @@ public class Gravimetrics : MonoBehaviour
 
     public GravityProperties GetMovementGravity(int index)
     {
-        //purpose: returns a vector 
+        //purpose: calculates a gravimetric result optimised for when the probe is moving
         //parametres:
-        //(index) body to calculate gravity with
-        //usage: called when an object is actively being moved by either player or another movement script
+            //(index) body to calculate gravity with
+        //usage: for when the probe is moving and thus requires a certain application of the gravimetric result and a drag due to atmosphere value
 
         Vector3 direction = Bodies[index].GetPosition() - GetComponent<ProbeVariables>().GetPosition(); //work out direction between both objects
         float distance = direction.magnitude; //get distance from direction
         float dragDueToAtmopshere = 0.25f - (distance / 100000); //calculate drag due to atmosphere based on how close probe is to planetary body
-        Debug.Log(dragDueToAtmopshere);
+        //Debug.Log(dragDueToAtmopshere);
         float magnitude = G * ((Bodies[index].GetMass() * GetComponent<ProbeVariables>().GetMass()) / Mathf.Pow(distance, 2)); //calculates the magnitude of the gravitational force
         Vector3 force = direction.normalized * (magnitude * Bodies[index].GravimetricStrength); //convert calculation into workable force
         return new GravityProperties(force, distance, dragDueToAtmopshere);
