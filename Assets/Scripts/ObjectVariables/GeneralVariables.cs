@@ -8,6 +8,7 @@ using UnityEngine;
 public class GeneralVariables : MonoBehaviour
 {
     //object variables
+    public int Population = 0; //among of humans living on this body
     public float Health = 100.0f; //entity's health
     public bool ObjectFixed = false; //flags whether the entity should be fixed or movable
 

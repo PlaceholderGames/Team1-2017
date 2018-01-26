@@ -9,7 +9,7 @@ using UnityEngine.UI;
 public class ShipMovement : MonoBehaviour
 {
     public float moveSpeed = 10000; //normal move speed
-    public float reverseSpeed = -10000; //normal move speed
+    public float reverseSpeed = -1000; //normal move speed
     public float superSpeed = 10000; //warped speed
     public float teleportSpeed = 0; //teleport distance
     public float normalFuelRate = 1; //fuel consumption rate for normal move speed
@@ -47,7 +47,7 @@ public class ShipMovement : MonoBehaviour
             else if (Input.GetKey(KeyCode.S)) //if key S is held
             {
                 //apply force in negative direction of local Z axis
-                probe.GetComponent<Rigidbody>().AddRelativeForce(0, 0, reverseSpeed * Time.deltaTime, ForceMode.Force);
+                probe.GetComponent<Rigidbody>().AddRelativeForce(0, 0, -reverseSpeed * Time.deltaTime, ForceMode.Force);
 
                 //update fuel
                 probe.GetComponent<ProbeVariables>().SetFuel(probe.GetComponent<ProbeVariables>().GetFuel() - normalFuelRate);
