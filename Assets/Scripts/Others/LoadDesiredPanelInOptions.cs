@@ -1,0 +1,49 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+
+public class LoadDesiredPanelInOptions : MonoBehaviour {
+
+    public Button clickedButton;
+    public Button otherButtonOne;
+    public Button otherButtonTwo;
+    public GameObject connectedPanel;
+    public GameObject otherPanelOne;
+    public GameObject otherPanelTwo; 
+
+
+	// Use this for initialization
+	void Start () {
+        clickedButton.GetComponent<Button>().onClick.AddListener(Clicked);
+    }
+	
+	// Update is called once per frame
+	void Clicked () {
+
+        if (otherPanelOne.activeSelf)
+        {
+            otherPanelOne.GetComponent<Animator>().SetTrigger("Close");
+            otherPanelOne.GetComponent<CanvasGroup>().interactable = false;
+            otherPanelOne.SetActive(false);
+            otherButtonOne.interactable = true;
+
+            connectedPanel.SetActive(true);
+            connectedPanel.GetComponent<CanvasGroup>().interactable = true;
+            connectedPanel.GetComponent<Animator>().SetTrigger("Open");
+            clickedButton.interactable = false;
+        }
+        else if (otherPanelTwo.activeSelf)
+        {
+            otherPanelTwo.GetComponent<Animator>().SetTrigger("Close");
+            otherPanelTwo.GetComponent<CanvasGroup>().interactable = false;
+            otherPanelTwo.SetActive(false);
+            otherButtonTwo.interactable = true;
+            
+            connectedPanel.SetActive(true);
+            connectedPanel.GetComponent<CanvasGroup>().interactable = true;
+            connectedPanel.GetComponent<Animator>().SetTrigger("Open");
+            clickedButton.interactable = false;
+        }
+    }
+}
