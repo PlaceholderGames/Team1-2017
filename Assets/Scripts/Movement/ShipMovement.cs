@@ -41,7 +41,7 @@ public class ShipMovement : MonoBehaviour
                 probe.GetComponent<ProbeVariables>().SetFuel(probe.GetComponent<ProbeVariables>().GetFuel() - superFuelRate);
 
                 //enable engine effects
-                lensflare.GetComponent<LensFlare>().brightness = 1.25f;
+                lensflare.GetComponent<LensFlare>().brightness = 1.5f;
                 particles.GetComponent<ParticleSystem>().Play();
             }
             else if (Input.GetKey(KeyCode.S)) //if key S is held
@@ -65,7 +65,7 @@ public class ShipMovement : MonoBehaviour
                 probe.GetComponent<ProbeVariables>().SetFuel(probe.GetComponent<ProbeVariables>().GetFuel() - normalFuelRate);
 
                 //enable engine effects
-                lensflare.GetComponent<LensFlare>().brightness = 0.125f;
+                lensflare.GetComponent<LensFlare>().brightness = 1f;
                 particles.GetComponent<ParticleSystem>().Play();
             }
             else

@@ -8,7 +8,7 @@ using UnityEngine;
 
 public class Gravimetrics : MonoBehaviour
 {
-	private const float G = 0.6674f; //gravitational constant
+	private const float G = 0.667408f; //gravitational constant
     public BodyVariables[] Bodies; //container of all planetary bodies
 
     void FixedUpdate()

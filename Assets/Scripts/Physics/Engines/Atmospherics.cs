@@ -49,7 +49,7 @@ public class Atmospherics : MonoBehaviour
         //drag formula: atmospheric unit - (distance in megametres / scaling factor) = drag
         //example distant planet drag calc: 0.25 - (24457 / 100000) = 0.00543 = extremely low drag
         //example close planet drag calc: 0.25 - (1500 / 100000) = 0.235 = extremely high drag
-        float drag = AtmosphericUnit - (grav.GetDistanceBetweenProbeAndBody() / ScaleFactor); //calculate drag from gravimetrics result's distance
+        float drag = AtmosphericUnit - (grav.GetDistanceBetweenObjectAndBody() / ScaleFactor); //calculate drag from gravimetrics result's distance
         if (GetComponent<Rigidbody>().drag + drag > 0) GetComponent<Rigidbody>().drag += drag; //ensure applying drag never results in a minus drag value
     }
 

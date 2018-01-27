@@ -17,6 +17,6 @@ public class ObjectRotator : MonoBehaviour
 		//usage: constantly rotates the object at each frame render
 		
 		if (rotation == Rotation.clockwise) transform.Rotate(Vector3.up, fltSpeed * Time.deltaTime);
-        else transform.Rotate(-Vector3.up, fltSpeed * Time.deltaTime);
+        else transform.Rotate(Vector3.down, fltSpeed * Time.deltaTime);
 	}
 }
