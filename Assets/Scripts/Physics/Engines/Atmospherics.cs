@@ -12,38 +12,68 @@ public class Atmospherics : MonoBehaviour
     private float ScaleFactor = 100000; //used for converting distance values into a scaled-down decimals
 
     //examplar variables for singular burning demo
-    public int burnBound = 0; //bounds for when the probe should burn inside
-    public GameObject objToBurnIn; //object that the probe burns up in (singular object for demo)
     public GameObject particles; //reference to particles effect for burning
+    public GameObject[] objsToBurnIn; //array of objects for the script to simulate atmospheric effects with
+    public int[] burnBounds; //array of boundaries that corresponds to objsToBurnIn
+    private bool[] isInRange; //array of flags that indicate what body the planet is within range of
+
+    void Start()
+    {
+        //initialise bool for in range 
+        isInRange = new bool[objsToBurnIn.Length];
+    }
 
     void FixedUpdate()
     {
-        //try to apply atmopsheric burning
-        BurnInAtmosphere(objToBurnIn.GetComponent<Rigidbody>(), burnBound);
+        //check what bodies the object is within range of
+        for (int i = 0; i < objsToBurnIn.Length; i++) isInRange[i] = checkInRange(objsToBurnIn[i].GetComponent<BodyVariables>(), burnBounds[i]);
+
+        //attempt to apply burning effect if applicable
+        attemptBurn();
     }
 
-    public void BurnInAtmosphere(Rigidbody obj, float bound)
+    private void attemptBurn()
     {
-        //purpose: checks if object is in range of a planet to simulate a burning effect of entering a planetary atmosphere
-        //parametres:
-            //(obj) current body to check if within bounds with
-            //(bound) bound for check if effect should be used in
+        //purpose: searches through isInRange array to see if burning effect should be applied
         //usage: inside internal FixedUpdate()
-        
-        //calculate relative distance between current object and body
-        Vector3 direction = obj.position - GetComponent<ProbeVariables>().GetPosition();
+
+        for (int i = 0; i < isInRange.Length; i++)
+        {
+            if (isInRange[i])
+            {
+                //object in range; enable effect and get out of method
+                particles.GetComponent<ParticleSystem>().Play();
+                return;
+            }
+        }
+
+        //if code gets here, object not in range; disable effect and continue normally
+        particles.GetComponent<ParticleSystem>().Stop();
+    }
+
+    public bool checkInRange(BodyVariables obj, int bound)
+    {
+        //purpose: checks if the object is in range of the passed through planetary body
+        //parametres:
+            //(obj) body's BodyVariables for getting planetary data from
+            //(bound) body's associated bound for comparison against object's distance from body
+        //usage: inside internal FixedUpdate()
+
+        //calculate relative distance between object and body
+        Vector3 direction = obj.GetPosition() - GetComponent<ProbeVariables>().GetPosition();
         float distance = direction.magnitude;
 
-        //decide whether burn particles should be enabled/decided
-        if (distance > bound) particles.GetComponent<ParticleSystem>().Stop();
-        else particles.GetComponent<ParticleSystem>().Play();
+        //check if object and body are within range
+        if (distance < bound) return true;
+        else return false;
     }
+
 
     public void ApplyDragDueToGravity(GravimetricResult grav)
     {
         //purpose: calculates and applies drag due to planetary gravity from a pre-calculated GravimetricResult
         //parametres:
-            //(grav) pre-calculated GravimetricResult (contains a relative force of gravity and distance between planet and current object at time of calculation)
+            //(grav) pre-calculated GravimetricResult (contains a relative force of gravity and distance between planet and object at time of calculation)
         //usage: called by the physics FixedUpdate() inside Gravimetrics class when method is calculating gravity
 
         //drag formula: atmospheric unit - (distance in megametres / scaling factor) = drag
