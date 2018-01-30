@@ -12,19 +12,19 @@ public class GeneralVariables : MonoBehaviour
     public float Health = 100.0f; //entity's health
     public bool ObjectFixed = false; //flags whether the entity should be fixed or movable
 
-    virtual public void DerivedStartTasks() { } //allows child classes to add start tasks via polymorphism
-    virtual public void DerivedFixedUpdateTasks() { } //allows child classes to add physics tasks via polymorphism
+    virtual public void DerivedStart() { } //allows child classes to add start tasks via polymorphism
+    virtual public void DerivedFixedUpdate() { } //allows child classes to add physics tasks via polymorphism
 
     void Start()
     {
         //purpose: runs object start tasks
-        DerivedStartTasks();
+        DerivedStart();
     }
 
     void FixedUpdate()
     {
         //purpose: runs object physics tasks
-        DerivedFixedUpdateTasks();
+        DerivedFixedUpdate();
     }
 
     //variable getters

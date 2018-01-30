@@ -21,10 +21,11 @@ public class ProbeVariables : GeneralVariables
     private int OverallTier = 1; //overall tier of probe
 
     //other stats
-    private float Speed = 0;
+    private Vector3 SpeedCurrent;
+    private float SpeedLimit = 100000;
     private int Materials = 0;
 
-    void Update()
+    void Start()
     {
         //purpose: ensures overall tier is correct
         OverallTier = (int)System.Math.Round((double)((CATier + FTTier + PGTier + SSTier) / 4));
@@ -32,8 +33,31 @@ public class ProbeVariables : GeneralVariables
 
     override public void DerivedFixedUpdateTasks()
     {
-        //purpose: get probe's velocity
-        Speed = (float)(GetComponent<Rigidbody>().velocity.magnitude * 3.6); //multiplying result by 3.6 converts m/s to KPH
+        //SpeedLimiter();
+    }
+
+    private void SpeedLimiter()
+    {
+        //purpose: ensure probe does not exceed top speed
+        //usage: internal DerivedFixedUpdate()
+
+        if ((SpeedCurrent.magnitude * 3.6f) >= SpeedLimit)
+        {
+            //if probe is exceeding top speed, cap the values of the offending vectors inside the velocity vector
+            Vector3 cappedVelocity = new Vector3();
+
+            if ((SpeedCurrent.x * 3.6f) >= SpeedLimit) cappedVelocity.x = (SpeedLimit / 3.6f);
+            else cappedVelocity.x = SpeedCurrent.x;
+
+            if ((SpeedCurrent.y * 3.6f) >= SpeedLimit) cappedVelocity.y = (SpeedLimit / 3.6f);
+            else cappedVelocity.y = SpeedCurrent.z;
+
+            if ((SpeedCurrent.z * 3.6f) >= SpeedLimit) cappedVelocity.z = (SpeedLimit / 3.6f);
+            else cappedVelocity.z = SpeedCurrent.z;
+
+            SpeedCurrent = GetComponent<Rigidbody>().velocity = cappedVelocity;
+        }
+        else SpeedCurrent = GetComponent<Rigidbody>().velocity; //if probe is below speed limit, just get velocity for local copy
     }
 
     //variable getters
@@ -43,7 +67,8 @@ public class ProbeVariables : GeneralVariables
     public float GetPowerGeneration() { return PowerGenerationBonus; }
     public float GetSensorCapacity() { return SensorCapacityBonus; }
     public int GetTier() { return OverallTier; }
-    public float GetSpeed() { return Speed; }
+    public float GetCurrentSpeed() { return SpeedCurrent.magnitude * 3.6f; /* multiplying result by 3.6 converts m/s to KPH */ }
+    public float GetSpeedLimit() { return SpeedLimit; }
     public int GetMaterialsCount() { return Materials; }
 
     //variable setters
