@@ -8,8 +8,8 @@ using UnityEngine;
 
 public class Atmospherics : MonoBehaviour
 {
-    private float AtmosphericUnit = 0.25f; //used as a base unit for calculating relative drag with
-    private float ScaleFactor = 100000; //used for converting distance values into a scaled-down decimals
+    public float AtmosphericUnit = 0.25f; //used as a base unit for calculating relative drag with
+    public float ScaleFactor = 100000; //used for converting distance values into a scaled-down decimals
 
     //examplar variables for singular burning demo
     public GameObject particles; //reference to particles effect for burning

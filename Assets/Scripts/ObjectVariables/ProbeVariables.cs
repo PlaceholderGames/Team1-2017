@@ -31,8 +31,9 @@ public class ProbeVariables : GeneralVariables
         OverallTier = (int)System.Math.Round((double)((CATier + FTTier + PGTier + SSTier) / 4));
     }
 
-    override public void DerivedFixedUpdateTasks()
+    override public void DerivedFixedUpdate()
     {
+        SpeedCurrent = GetComponent<Rigidbody>().velocity;
         //SpeedLimiter();
     }
 
