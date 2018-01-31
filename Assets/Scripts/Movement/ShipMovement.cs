@@ -28,7 +28,7 @@ public class ShipMovement : MonoBehaviour
             if (Input.GetKey(KeyCode.LeftShift) & Input.GetKey(KeyCode.W)) //if both keys W and LShift are held
             {
                 //apply additional force in direction of local Z axis
-                GetComponent<Rigidbody>().AddRelativeForce(0, 0, superSpeed * Time.deltaTime, ForceMode.Force);
+                GetComponent<Rigidbody>().AddRelativeForce(0, 0, superSpeed * Time.deltaTime, ForceMode.Acceleration);
 
                 //update fuel
                 GetComponent<ProbeVariables>().SetFuel(GetComponent<ProbeVariables>().GetFuel() - superFuelRate);
@@ -40,7 +40,7 @@ public class ShipMovement : MonoBehaviour
             else if (Input.GetKey(KeyCode.S)) //if key S is held
             {
                 //slow down probe
-                GetComponent<Rigidbody>().AddRelativeForce(0, 0, -reverseSpeed * Time.deltaTime, ForceMode.Force);
+                GetComponent<Rigidbody>().AddRelativeForce(0, 0, -reverseSpeed * Time.deltaTime, ForceMode.Acceleration);
 
                 //update fuel
                 GetComponent<ProbeVariables>().SetFuel(GetComponent<ProbeVariables>().GetFuel() - superFuelRate);
@@ -61,7 +61,7 @@ public class ShipMovement : MonoBehaviour
             else if (Input.GetKey(KeyCode.W)) //if key W is held
             {
                 //apply force in positive direction of local Z axis
-                GetComponent<Rigidbody>().AddRelativeForce(0, 0, moveSpeed * Time.deltaTime, ForceMode.Force);
+                GetComponent<Rigidbody>().AddRelativeForce(0, 0, moveSpeed * Time.deltaTime, ForceMode.Acceleration);
 
                 //update fuel
                 GetComponent<ProbeVariables>().SetFuel(GetComponent<ProbeVariables>().GetFuel() - normalFuelRate);

@@ -35,10 +35,11 @@ public class FloatingOrigin : MonoBehaviour
             {
                 ParticleSystem sys = (ParticleSystem)o;
 
-                if (sys.simulationSpace != ParticleSystemSimulationSpace.World)
+
+                if (sys.main.simulationSpace != ParticleSystemSimulationSpace.World)
                     continue;
 
-                int particlesNeeded = sys.maxParticles;
+                int particlesNeeded = sys.main.maxParticles;
 
                 if (particlesNeeded <= 0)
                     continue;
