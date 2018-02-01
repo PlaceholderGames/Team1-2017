@@ -1,6 +1,7 @@
 ﻿/*
-	purpose: floating origin fix from Unity (http://wiki.unity3d.com/index.php/Floating_Origin)
+	purpose: ensures the camera does not exceed floating point limitation-emposed bounds by moving the world around the camera
 	usage: attached to camera
+    based on: http://wiki.unity3d.com/index.php/Floating_Origin
 */
 
 using UnityEngine;
@@ -8,8 +9,8 @@ using UnityEngine;
 [RequireComponent(typeof(Camera))]
 public class FloatingOrigin : MonoBehaviour
 {
-    public float threshold = 100.0f;
-    public float physicsThreshold = 1000.0f; // Set to zero to disable
+    public float threshold = 1000.0f;
+    public float physicsThreshold = 10000.0f; //0 disables script
     public float defaultSleepThreshold = 0.14f;
     ParticleSystem.Particle[] parts = null;
 
@@ -17,62 +18,43 @@ public class FloatingOrigin : MonoBehaviour
     {
         Vector3 cameraPosition = gameObject.transform.position;
         cameraPosition.y = 0f;
+
         if (cameraPosition.magnitude > threshold)
         {
+            //transform position of objects relative to camera
             Object[] objects = FindObjectsOfType(typeof(Transform));
             foreach (Object o in objects)
             {
                 Transform t = (Transform)o;
-                if (t.parent == null)
-                {
-                    t.position -= cameraPosition;
-                }
+                if (t.parent == null) t.position -= cameraPosition;
             }
 
-            // new particles... very similar to old version above
+            //transform position of particles relative to camera
             objects = FindObjectsOfType(typeof(ParticleSystem));
             foreach (Object o in objects)
             {
-                ParticleSystem sys = (ParticleSystem)o;
+                ParticleSystem sys = (ParticleSystem)o; //create local ParticleSystem instance
+                if (sys.main.simulationSpace != ParticleSystemSimulationSpace.World) continue;
 
+                //get number of particles needed to be altered
+                int particlesNeeded = sys.main.maxParticles; 
+                if (particlesNeeded <= 0) continue; //exit method if no particles
 
-                if (sys.main.simulationSpace != ParticleSystemSimulationSpace.World)
-                    continue;
-
-                int particlesNeeded = sys.main.maxParticles;
-
-                if (particlesNeeded <= 0)
-                    continue;
-
+                //get status of particle system
                 bool wasPaused = sys.isPaused;
                 bool wasPlaying = sys.isPlaying;
-
-                if (!wasPaused)
-                    sys.Pause();
-
-                // ensure a sufficiently large array in which to store the particles
-                if (parts == null || parts.Length < particlesNeeded)
-                {
-                    parts = new ParticleSystem.Particle[particlesNeeded];
-                }
-
-                // now get the particles
+                if (!wasPaused) sys.Pause(); //pause particle system
+                
+                if (parts == null || parts.Length < particlesNeeded) parts = new ParticleSystem.Particle[particlesNeeded]; //create array of all particles
                 int num = sys.GetParticles(parts);
-
-                for (int i = 0; i < num; i++)
-                {
-                    parts[i].position -= cameraPosition;
-                }
-
-                sys.SetParticles(parts, num);
-
-                if (wasPlaying)
-                    sys.Play();
+                for (int i = 0; i < num; i++) parts[i].position -= cameraPosition; //transform particle
+                sys.SetParticles(parts, num); //set altered particel position
+                if (wasPlaying) sys.Play(); //resume particle system
             }
 
             if (physicsThreshold > 0f)
             {
-                float physicsThreshold2 = physicsThreshold * physicsThreshold; // simplify check on threshold
+                float physicsThreshold2 = physicsThreshold * physicsThreshold; //simplify check on threshold
                 objects = FindObjectsOfType(typeof(Rigidbody));
                 foreach (Object o in objects)
                 {
