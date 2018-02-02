@@ -17,15 +17,21 @@ public class LoadDesiredPanelInOptions : MonoBehaviour {
 	void Start () {
         clickedButton.GetComponent<Button>().onClick.AddListener(Clicked);
     }
-	
-	// Update is called once per frame
-	void Clicked () {
 
-        if (otherPanelOne.activeSelf)
-        {
-            otherPanelOne.GetComponent<Animator>().SetTrigger("Close");
+
+    // Update is called once per frame
+    void Clicked () {
+
+        if (otherPanelOne.GetComponent<CanvasGroup>().alpha == 1)
+       {
+
+            //otherPanelOne.activeSelf
+
+           otherPanelOne.GetComponent<Animator>().SetTrigger("Close");
+
+          
             otherPanelOne.GetComponent<CanvasGroup>().interactable = false;
-            otherPanelOne.SetActive(false);
+           // otherPanelOne.SetActive(false);
             otherButtonOne.interactable = true;
 
             connectedPanel.SetActive(true);
@@ -33,17 +39,27 @@ public class LoadDesiredPanelInOptions : MonoBehaviour {
             connectedPanel.GetComponent<Animator>().SetTrigger("Open");
             clickedButton.interactable = false;
         }
-        else if (otherPanelTwo.activeSelf)
+        else if (otherPanelTwo.GetComponent<CanvasGroup>().alpha == 1)
         {
             otherPanelTwo.GetComponent<Animator>().SetTrigger("Close");
+         
+        
             otherPanelTwo.GetComponent<CanvasGroup>().interactable = false;
-            otherPanelTwo.SetActive(false);
+           // otherPanelTwo.SetActive(false);
             otherButtonTwo.interactable = true;
-            
+
             connectedPanel.SetActive(true);
             connectedPanel.GetComponent<CanvasGroup>().interactable = true;
             connectedPanel.GetComponent<Animator>().SetTrigger("Open");
             clickedButton.interactable = false;
         }
+    }
+
+    IEnumerator DoAnimation()
+    {
+        Debug.Log("This happens 2 seconds later. Tada.");
+        
+        yield return new WaitForSeconds(300f); // wait for two seconds.
+        
     }
 }
