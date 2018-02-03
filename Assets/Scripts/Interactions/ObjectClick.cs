@@ -8,7 +8,9 @@ using UnityEngine.UI;
 
 public class ObjectClick : MonoBehaviour
 {
-    public GameObject selectedObjectLabel; //reference to selected object label object
+    public GameObject selectedObjectName; //reference to selected object's name label object
+    public GameObject selectedObjectPopulation; //reference to selected object's population label object
+    private float untilTimeout = 0.0f; //used for timeout for when the labels should be cleared after clicking an object
 
     void Update()
     {
@@ -17,8 +19,34 @@ public class ObjectClick : MonoBehaviour
         {
             RaycastHit rcHit;
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            if (Physics.Raycast(ray, out rcHit)) selectedObjectLabel.GetComponent<Text>().text = "Selected: " + rcHit.collider.transform.name;
-            else selectedObjectLabel.GetComponent<Text>().text = "";
+            if (Physics.Raycast(ray, out rcHit))
+            {
+                //display object's name
+                selectedObjectName.GetComponent<Text>().text = "Selected: " + rcHit.collider.transform.name;
+
+                //display object's population if possible
+                if (rcHit.collider.GetComponent<GeneralVariables>().Population > 0)
+                    selectedObjectPopulation.GetComponent<Text>().text = "Population: " + string.Format("{0:n0}", rcHit.collider.GetComponent<GeneralVariables>().Population);
+                else selectedObjectPopulation.GetComponent<Text>().text = "";
+
+                //start timeout countdown
+                untilTimeout = 3;
+            }
+            else
+            {
+                selectedObjectName.GetComponent<Text>().text = "";
+                selectedObjectPopulation.GetComponent<Text>().text = "";
+                untilTimeout = 0;
+            }
+        }
+
+        //manage timeout if applicable
+        if (untilTimeout > 0) untilTimeout -= Time.deltaTime;
+        else if (untilTimeout <= 0)
+        {
+            selectedObjectName.GetComponent<Text>().text = "";
+            selectedObjectPopulation.GetComponent<Text>().text = "";
+            untilTimeout = 0;
         }
     }
 }

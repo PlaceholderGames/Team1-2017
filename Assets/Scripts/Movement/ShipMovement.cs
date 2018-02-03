@@ -9,15 +9,14 @@ using UnityEngine.UI;
 public class ShipMovement : MonoBehaviour
 {
     public float moveSpeed = 10000; //normal move speed
-    public float reverseSpeed = 1000; //normal move speed
     public float superSpeed = 10000; //warped speed
-    public float teleportSpeed = 0; //teleport distance
-    public float normalFuelRate = 1; //fuel consumption rate for normal move speed
+    public float normalFuelRate = 1f; //fuel consumption rate for normal move speed
     public float superFuelRate = 2.5f; //fuel consumption rate for warped speed
     public GameObject lensflare; //reference to lens flare
     public GameObject particles; //reference to particles
     public GameObject speedometer; //reference to speedometer object
     public GameObject fuelcounter; //reference to fuelcounter object
+    private float previousSpeed = 0f;
 
     void FixedUpdate()
     {
@@ -39,22 +38,25 @@ public class ShipMovement : MonoBehaviour
             }
             else if (Input.GetKey(KeyCode.S)) //if key S is held
             {
-                //slow down probe
-                GetComponent<Rigidbody>().AddRelativeForce(0, 0, -reverseSpeed * Time.deltaTime, ForceMode.Acceleration);
+                if (previousSpeed > GetComponent<ProbeVariables>().GetCurrentSpeed()) //slow down whilst speed is decreasing
+                {
+                    //slow down probe
+                    GetComponent<Rigidbody>().AddRelativeForce(0, 0, -moveSpeed * Time.deltaTime, ForceMode.Acceleration);
 
-                //update fuel
-                GetComponent<ProbeVariables>().SetFuel(GetComponent<ProbeVariables>().GetFuel() - superFuelRate);
+                    //update fuel
+                    GetComponent<ProbeVariables>().SetFuel(GetComponent<ProbeVariables>().GetFuel() - superFuelRate);
 
-                //enable engine effects
-                lensflare.GetComponent<LensFlare>().brightness = 0f;
-                particles.GetComponent<ParticleSystem>().Stop();
+                    //disable engine effects
+                    lensflare.GetComponent<LensFlare>().brightness = 0f;
+                    particles.GetComponent<ParticleSystem>().Stop();
+                }
             }
             else if (Input.GetKey(KeyCode.Q)) //if key S is held
             {
                 //bring probe to a stop
                 GetComponent<Rigidbody>().velocity = new Vector3(0, 0, 0);
 
-                //enable engine effects
+                //disable engine effects
                 lensflare.GetComponent<LensFlare>().brightness = 0f;
                 particles.GetComponent<ParticleSystem>().Stop();
             }
@@ -84,12 +86,6 @@ public class ShipMovement : MonoBehaviour
             particles.GetComponent<ParticleSystem>().Stop();
         }
 
-        //if (Input.GetKeyDown(KeyCode.Space)) //if and when key Space is pressed
-        //{
-        //    //apply a big amount of force in direction of local Z axis
-        //    GetComponent<Rigidbody>().AddRelativeForce(0, 0, teleportSpeed, ForceMode.Force);
-        //}
-
         //manage fuel tasks
         if (fuelcounter != null)
         {
@@ -101,5 +97,8 @@ public class ShipMovement : MonoBehaviour
         {
             speedometer.GetComponent<Text>().text = "Speed: " + GetComponent<ProbeVariables>().GetCurrentSpeed().ToString() + " KP/H";
         }
+
+        //store current speed to check in the next FixedUpdate call so that the script can ensure the slowdown function doesn't reverse the probe
+        previousSpeed = GetComponent<ProbeVariables>().GetCurrentSpeed();
     }
 }
