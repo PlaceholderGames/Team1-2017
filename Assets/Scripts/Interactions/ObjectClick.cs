@@ -17,7 +17,7 @@ public class ObjectClick : MonoBehaviour
         {
             RaycastHit rcHit;
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            if (Physics.Raycast(ray, out rcHit)) selectedObjectLabel.GetComponent<Text>().text = "Selected: " + rcHit.transform.name;
+            if (Physics.Raycast(ray, out rcHit)) selectedObjectLabel.GetComponent<Text>().text = "Selected: " + rcHit.collider.transform.name;
             else selectedObjectLabel.GetComponent<Text>().text = "";
         }
     }
