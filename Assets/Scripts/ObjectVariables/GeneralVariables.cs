@@ -3,12 +3,13 @@
     usage: only used when a child class is not available for an entity
 */
 
+using System;
 using UnityEngine;
 
 public class GeneralVariables : MonoBehaviour
 {
     //object variables
-    public int Population = 0; //among of humans living on this body
+    public string Population = "0"; //amount of humans living on this body
     public float Health = 100.0f; //entity's health
     public bool ObjectFixed = false; //flags whether the entity should be fixed or movable
 
@@ -31,4 +32,6 @@ public class GeneralVariables : MonoBehaviour
     public Vector3 GetPosition() { return GetComponent<Rigidbody>().position; }
     public Quaternion GetRotation() { return GetComponent<Rigidbody>().rotation; }
     public float GetMass() { return GetComponent<Rigidbody>().mass; }
+    public void SetPopulation(long newPopulation) { Population = newPopulation.ToString(); }
+    public long GetPopulation() { return Convert.ToInt64(Population); }
 }

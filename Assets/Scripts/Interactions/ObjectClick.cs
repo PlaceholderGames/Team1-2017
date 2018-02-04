@@ -25,8 +25,9 @@ public class ObjectClick : MonoBehaviour
                 selectedObjectName.GetComponent<Text>().text = "Selected: " + rcHit.collider.transform.name;
 
                 //display object's population if possible
-                if (rcHit.collider.GetComponent<GeneralVariables>().Population > 0)
-                    selectedObjectPopulation.GetComponent<Text>().text = "Population: " + string.Format("{0:n0}", rcHit.collider.GetComponent<GeneralVariables>().Population);
+                Debug.Log(rcHit.collider.GetComponent<GeneralVariables>().Population);
+                if (rcHit.collider.GetComponent<GeneralVariables>().Population != "0")
+                    selectedObjectPopulation.GetComponent<Text>().text = "Population: " + string.Format("{0:n0}", rcHit.collider.GetComponent<GeneralVariables>().GetPopulation());
                 else selectedObjectPopulation.GetComponent<Text>().text = "";
 
                 //start timeout countdown
