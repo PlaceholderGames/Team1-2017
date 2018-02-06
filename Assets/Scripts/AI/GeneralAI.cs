@@ -16,6 +16,14 @@ namespace Assets.Scripts.AI
         public int deltaMin = 0; //minimum time of event
         public int deltaMax = 1; //maximum time of event
 
+        //variables for overriding the AI to perform a certain follow task
+        public GeneralVariables overrideObjective; //specified override objective for an object to travel to
+        bool terminateAfterOverride = false; //disables AI after the override objective is complete
+
+        //object effect references so that they can be controlled by AI actions
+        public GameObject lensflare; //reference to lens flare
+        public GameObject particles; //reference to particles
+
         //current action variables
         protected Action currentAction = Action.None; //current action object is performing
         protected float countdownUntilFinish = 0f; //used for counting down an event's time in execution
@@ -45,9 +53,19 @@ namespace Assets.Scripts.AI
         protected void EndEvent()
         {
             //purpose: resets variables to remove current event
-
             currentAction = Action.None;
             countdownUntilFinish = 0f;
+
+            //disable particle effects
+            lensflare.GetComponent<LensFlare>().enabled = false;
+            particles.GetComponent<ParticleSystem>().Stop();
+
+            //disable override
+            if (overrideObjective != null)
+            {
+                overrideObjective = null;
+                if (terminateAfterOverride) GetComponent<GeneralAI>().enabled = false;
+            } 
         }
     }
 }

@@ -10,8 +10,7 @@ public class Atmospherics : MonoBehaviour
 {
     public float AtmosphericUnit = 0.25f; //used as a base unit for calculating relative drag with
     public float ScaleFactor = 100000; //used for converting distance values into a scaled-down decimals
-
-    //examplar variables for singular burning demo
+    public float InteractivityRange = 100; //declares how close the object has to be for burning up
     public GameObject particles; //reference to particles effect for burning
     private BodyVariables[] Bodies; //container of all planetary bodies
     private bool[] isInRange; //array of flags that indicate what body the planet is within range of
@@ -66,10 +65,8 @@ public class Atmospherics : MonoBehaviour
         Vector3 direction = obj.GetPosition() - GetComponent<ProbeVariables>().GetPosition();
         float distance = direction.magnitude;
 
-        Debug.Log(obj.GetDiameter());
-
         //check if object and body are within range
-        if (distance < obj.GetDiameter() + 50) return true;
+        if (distance < obj.GetSize() + InteractivityRange) return true;
         else return false;
     }
 

@@ -66,4 +66,5 @@ public class GeneralVariables : MonoBehaviour
     public long GetPopulation() { return Convert.ToInt64(Population); }
     public float GetCurrentSpeed() { return SpeedCurrent.magnitude * 3.6f; /* multiplying result by 3.6 converts m/s to KPH */ }
     public float GetSpeedLimit() { return SpeedLimit; }
+    virtual public float GetSize() { return 0; }
 }
