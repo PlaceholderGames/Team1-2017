@@ -13,20 +13,24 @@ public class Atmospherics : MonoBehaviour
 
     //examplar variables for singular burning demo
     public GameObject particles; //reference to particles effect for burning
-    public GameObject[] objsToBurnIn; //array of objects for the script to simulate atmospheric effects with
-    public int[] burnBounds; //array of boundaries that corresponds to objsToBurnIn
+    private BodyVariables[] Bodies; //container of all planetary bodies
     private bool[] isInRange; //array of flags that indicate what body the planet is within range of
 
     void Start()
     {
+        //populate Bodies array with all planets
+        GameObject[] planets = GameObject.FindGameObjectsWithTag("Planet"); //get local reference to all planets
+        Bodies = new BodyVariables[planets.Length]; //initialise Bodies array
+        for (int i = 0; i < planets.Length; i++) Bodies[i] = planets[i].GetComponent<BodyVariables>();
+
         //initialise bool for in range 
-        isInRange = new bool[objsToBurnIn.Length];
+        isInRange = new bool[Bodies.Length];
     }
 
     void FixedUpdate()
     {
         //check what bodies the object is within range of
-        for (int i = 0; i < objsToBurnIn.Length; i++) isInRange[i] = checkInRange(objsToBurnIn[i].GetComponent<BodyVariables>(), burnBounds[i]);
+        for (int i = 0; i < Bodies.Length; i++) isInRange[i] = checkInRange(Bodies[i]);
 
         //attempt to apply burning effect if applicable
         attemptBurn();
@@ -51,20 +55,21 @@ public class Atmospherics : MonoBehaviour
         particles.GetComponent<ParticleSystem>().Stop();
     }
 
-    public bool checkInRange(BodyVariables obj, int bound)
+    public bool checkInRange(BodyVariables obj)
     {
         //purpose: checks if the object is in range of the passed through planetary body
         //parametres:
             //(obj) body's BodyVariables for getting planetary data from
-            //(bound) body's associated bound for comparison against object's distance from body
         //usage: inside internal FixedUpdate()
 
         //calculate relative distance between object and body
         Vector3 direction = obj.GetPosition() - GetComponent<ProbeVariables>().GetPosition();
         float distance = direction.magnitude;
 
+        Debug.Log(obj.GetDiameter());
+
         //check if object and body are within range
-        if (distance < bound) return true;
+        if (distance < obj.GetDiameter() + 50) return true;
         else return false;
     }
 

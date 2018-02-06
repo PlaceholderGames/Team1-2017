@@ -9,7 +9,15 @@ using UnityEngine;
 public class Gravimetrics : MonoBehaviour
 {
     private const float G = 0.667408f; //gravitational constant
-    public BodyVariables[] Bodies; //container of all planetary bodies
+    private BodyVariables[] Bodies; //container of all planetary bodies
+
+    void Start()
+    {
+        //populate Bodies array with all planets
+        GameObject[] planets = GameObject.FindGameObjectsWithTag("Planet"); //get local reference to all planets
+        Bodies = new BodyVariables[planets.Length]; //initialise Bodies array
+        for (int i = 0; i < planets.Length; i++) Bodies[i] = planets[i].GetComponent<BodyVariables>();
+    }
 
     void FixedUpdate()
     {

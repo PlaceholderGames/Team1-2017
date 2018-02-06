@@ -51,7 +51,7 @@ public class ShipMovement : MonoBehaviour
                     particles.GetComponent<ParticleSystem>().Stop();
                 }
             }
-            else if (Input.GetKey(KeyCode.Q)) //if key S is held
+            else if (Input.GetKey(KeyCode.Q)) //if key Q is held
             {
                 //bring probe to a stop
                 GetComponent<Rigidbody>().velocity = new Vector3(0, 0, 0);
