@@ -3,93 +3,58 @@
     usage: attached to Solar Ships that are expected to be interactive
 */
 
+using Assets.Scripts.Containers;
 using UnityEngine;
 
 namespace Assets.Scripts.AI
 {
-    class ShipAI : GeneralAI
-    { 
+    class ShipAI : MonoBehaviour
+    {
+        //variables for controlling the delta time between events
+        public int deltaMin = 0; //minimum time of event
+        public int deltaMax = 1; //maximum time of event
+
+        //variables for overriding the AI to perform a certain follow task
+        public GameObject overrideObjective; //specified override objective for an object to travel to
+
+        //object effect references so that they can be controlled by AI actions
+        public GameObject lensflare; //reference to lens flare
+        public GameObject particles; //reference to particles
+
         //variables for how the object is supposed to interact
-        public float speedComparedToPlayer = 1f; //speed the object's follows the player at (where 1f is match speed)
-        public float rotationSpeed = 1f; //the amount the object can rotate once moving
-        public float maxTravelSpeed = 100f; //speed limit for object
+        public float maxSpeed = 10f; //speed limit for object
+        public float maxRotate = 0.1f; //the amount the object can rotate once moving
 
-        private GeneralVariables currentFocusObj; //stores the thing that object is currently focused on
+        private AIEvent currentEvent; //current event of this AI
 
+        void Start() { currentEvent = CreateEvent(); }
 
-        override public void DerivedStart()
+        void FixedUpdate() { if (currentEvent.Poll()) currentEvent = CreateEvent(); }
+
+        private AIEvent CreateEvent()
         {
-            StartEvent();
-            if (overrideObjective != null) currentFocusObj = overrideObjective; //if override is specified, make override the focus for the object
-        }
-
-        override public void DerivedFixedUpdate()
-        {
-            if (overrideObjective == null) //process current event if no override is specified
+            if (overrideObjective == null)
             {
-                switch (currentAction) //maintain event processing by executing the action required for event
+                int randAction = Random.Range(0, 2);
+                int randDuration = Random.Range(deltaMin, deltaMax);
+
+                if (randAction == 0) //stationary
                 {
-                    case Action.None:
-                        StartEvent();
-                        break;
-                    case Action.Stationary:
-                        break;
-                    case Action.RandomTravel:
-                        Follow();
-                        break;
-                    case Action.FollowPlayer:
-                        Follow();
-                        break;
+                    return new AIEvent(gameObject, particles, lensflare, Action.Stationary, null, 0, 0, randDuration);
+                }
+                else if (randAction == 1) //random travel
+                {
+                    GameObject[] planets = GameObject.FindGameObjectsWithTag("Planet"); //all planets in scene
+                    int rand = Random.Range(0, planets.Length); //random integer to select planet with
+                    return new AIEvent(gameObject, particles, lensflare, Action.Travel, planets[rand], maxSpeed, maxRotate);
+                }
+                else if (randAction == 2) //follow player
+                {
+                    return new AIEvent(gameObject, particles, lensflare, Action.Travel, GameObject.FindGameObjectWithTag("Player"), maxSpeed, maxRotate, randDuration);
                 }
             }
-            else Follow(); //if overriden, follow to move to override objective
-        }
-
-        override public void StartEvent()
-        {
-            //randomly selects an event
-
-            countdownUntilFinish = Random.Range(deltaMin, deltaMax); //randomise time period of event
-            int probRand = Random.Range(0, 3); //randomise event slector
-
-            if (probRand == 0) //stationary
-            {
-                currentAction = Action.Stationary;
-                lensflare.GetComponent<LensFlare>().enabled = false;
-                particles.GetComponent<ParticleSystem>().Stop();
-            }
-            else if (probRand == 1) //random travel
-            {
-                currentAction = Action.RandomTravel;
-                GameObject[] planets = GameObject.FindGameObjectsWithTag("Planet"); //all planets in scene
-                int rand = Random.Range(0, planets.Length);
-                currentFocusObj = planets[rand].GetComponent<GeneralVariables>();
-                countdownUntilFinish = 960; //override random number for countdown to allow the object to have a reasonable change of arrival
-                lensflare.GetComponent<LensFlare>().enabled = true;
-                particles.GetComponent<ParticleSystem>().Play();
-                Follow();
-            }
-            else if (probRand == 2) //follow player
-            {
-                currentAction = Action.FollowPlayer;
-                currentFocusObj = GameObject.FindGameObjectWithTag("Player").GetComponent<ProbeVariables>();
-                lensflare.GetComponent<LensFlare>().enabled = true;
-                particles.GetComponent<ParticleSystem>().Play();
-                Follow();
-            }
-        }
-
-        private void Follow()
-        {
-            //purpose: directs object towards current focus
-
-            //translate object
-            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(currentFocusObj.GetPosition() - transform.position), rotationSpeed * Time.deltaTime);
-            transform.position += transform.forward * (maxTravelSpeed * speedComparedToPlayer) * Time.deltaTime;
-
-            //check if object has reached its destination
-            Vector3 different = currentFocusObj.GetPosition() - GetComponent<GeneralVariables>().GetPosition(); //work out direction between both objects
-            if ((different.magnitude - (currentFocusObj.GetSize()) * 2) <= 0) EndEvent();
+            else return new AIEvent(gameObject, particles, lensflare, Action.Travel, overrideObjective, maxSpeed, maxRotate); //engage on override objective
+            return new AIEvent(gameObject, particles, lensflare, Action.Stationary); //default event is long stationary
         }
     }
 }
