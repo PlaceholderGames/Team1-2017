@@ -1,6 +1,6 @@
 ﻿/*
     purpose: provides encapulsation for event information for the artificial intelligence to use
-    usage: internally when gravity needs applying
+    usage: by an AI engine
 */
 
 using UnityEngine;
@@ -10,8 +10,9 @@ namespace Assets.Scripts.Containers
     //enumeration of all possible actions any subclass can do
     public enum Action { Stationary, Travel, Hostile }
 
-    public class AIEvent
+    public class AIEvent : AIEventQueue
     {
+        private int eventPriority;
         private GameObject eventAssignee; //the object this event is assigned to
         private GameObject eventFocus; //the object the AI is focused on (used if event is a following type)
         private Action eventAction; //the action this event does
@@ -22,10 +23,11 @@ namespace Assets.Scripts.Containers
         private float maxSpeed;
         private float maxRotate;
 
-        public AIEvent(GameObject assignee, GameObject particles, GameObject lens, Action action, GameObject focus = null, float speed = 10f, float rotation = 0.1f, float duration = float.MaxValue)
+        public AIEvent(int priority, GameObject assignee, GameObject particles, GameObject lens, Action action, GameObject focus = null, float speed = 10f, float rotation = 0.1f, float duration = float.MaxValue)
         {
             //purpose: class constructor
             //parametres:
+                //(priority) the strength of the event
                 //(assignee) object this event is assigned too
                 //(particles) object that contains object's ParticleSystems
                 //(lens) object that contains object's LensFlare
@@ -35,6 +37,7 @@ namespace Assets.Scripts.Containers
                 //(rotation) the degree of rotation the object can do (default 0.1f)
                 //(duration) amount of seconds the event is expected to endure for (default at maximum float value)
 
+            eventPriority = priority;
             eventAssignee = assignee;
             eventFocus = focus;
             eventAction = action;
@@ -43,7 +46,43 @@ namespace Assets.Scripts.Containers
             objectsLensFlare = lens;
             maxSpeed = speed;
             maxRotate = rotation;
+            if (eventAction == Action.Hostile)
+            {
+                maxSpeed *= 20;
+                maxRotate *= 20;
+            }
             if (eventFocus!= null) UpdateDistance();
+        }
+
+        public int GetPriority() { return eventPriority; }
+
+        public override bool Poll()
+        {
+            //purpose: maintains event and returns current status
+            //usage: can be used as a independent entity or ideally as a member of the AIEventQueue data structure
+            //returning true flags event as complete so that it can be destroyed and a new event enqueued
+            //returning false flags event as incomplete and will require further polling to complete
+
+            //update event control variables
+            eventDuration -= Time.deltaTime;
+            if (eventDuration <= 0) return true; //flag event as complete due to exceeding duration
+            if (eventFocus != null) UpdateDistance(); //update distance if a focus target exists
+
+            switch (eventAction) //process event based on eventAction enum
+            {
+                case Action.Stationary:
+                    ToggleEffects(false);
+                    return false; //flag event as incomplete
+                case Action.Travel:
+                    if (eventFocus == null) return true; //flag event for destruction if attempting Follow() when there is no focus
+                    ToggleEffects(true);
+                    return Travel();
+                case Action.Hostile:
+                    if (eventFocus == null) return true; //flag event for destruction if attempting Follow() when there is no focus
+                    ToggleEffects(true);
+                    return Travel();
+            }
+            return false;
         }
 
         private void UpdateDistance()
@@ -68,31 +107,6 @@ namespace Assets.Scripts.Containers
             }
         }
         
-        public bool Poll()
-        {
-            //purpose: maintains event and returns current status
-            //usage: called during FixedUpdate() function of the AI classes to return the status of the event
-                //returning true flags event as complete so that it can be destroyed and a new event enqueued
-                //returning false flags event as incomplete and will require further polling to complete
-
-            //update event control variables
-            eventDuration -= Time.deltaTime;
-            if (eventDuration <= 0) return true; //flag event as complete due to exceeding duration
-            if (eventFocus != null) UpdateDistance(); //update distance if a focus target exists
-
-            switch (eventAction) //process event based on eventAction enum
-            {
-                case Action.Stationary:
-                    ToggleEffects(false);
-                    return false; //flag event as incomplete
-                case Action.Travel:
-                    if (eventFocus == null) return true; //flag event for destruction if attempting Follow() when there is no focus
-                    ToggleEffects(true);
-                    return Travel();
-            }
-            return false;
-        }
-        
         private bool Travel()
         {
             //purpose: directs object towards current focus
@@ -104,8 +118,7 @@ namespace Assets.Scripts.Containers
             transform.position += transform.forward * maxSpeed * Time.deltaTime;
 
             //check if object has reached its destination
-            Vector3 different = currentFocus.GetPosition() - eventAssignee.GetComponent<GeneralVariables>().GetPosition(); //work out direction between both objects
-            if ((different.magnitude - (currentFocus.GetSize()) * 2) <= 0) return true; //flag event as complete due to reaching destination 
+            if ((distanceFromFocus - (currentFocus.GetSize()) * 2) <= 0) return true; //flag event as complete due to reaching destination 
             else return false; //flag event as incomplete
         }
     };
