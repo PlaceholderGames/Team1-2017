@@ -25,13 +25,11 @@ public class LoadDesiredPanelInOptions : MonoBehaviour {
         if (otherPanelOne.GetComponent<CanvasGroup>().alpha == 1)
        {
 
-            //otherPanelOne.activeSelf
-
-           otherPanelOne.GetComponent<Animator>().SetTrigger("Close");
+            otherPanelOne.GetComponent<Animator>().SetTrigger("Close");
 
           
             otherPanelOne.GetComponent<CanvasGroup>().interactable = false;
-           // otherPanelOne.SetActive(false);
+
             otherButtonOne.interactable = true;
 
             connectedPanel.SetActive(true);
@@ -45,7 +43,6 @@ public class LoadDesiredPanelInOptions : MonoBehaviour {
          
         
             otherPanelTwo.GetComponent<CanvasGroup>().interactable = false;
-           // otherPanelTwo.SetActive(false);
             otherButtonTwo.interactable = true;
 
             connectedPanel.SetActive(true);
