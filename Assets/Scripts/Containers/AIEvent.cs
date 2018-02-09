@@ -18,12 +18,12 @@ namespace Assets.Scripts.Containers
         private Action eventAction; //the action this event does
         private float eventDuration; //event's duration
         private float distanceFromFocus; //magnitude of distance between object this Event belongs to and the focus
-        private GameObject objectsParticles;
-        private GameObject objectsLensFlare;
+        private GameObject[] objectsParticles;
+        private GameObject[] objectsLensFlare;
         private float maxSpeed;
         private float maxRotate;
 
-        public AIEvent(int priority, GameObject assignee, GameObject particles, GameObject lens, Action action, GameObject focus = null, float speed = 10f, float rotation = 0.1f, float duration = float.MaxValue)
+        public AIEvent(int priority, GameObject assignee, GameObject[] particles, GameObject[] lens, Action action, GameObject focus = null, float speed = 10f, float rotation = 0.1f, float duration = float.MaxValue)
         {
             //purpose: class constructor
             //parametres:
@@ -99,11 +99,14 @@ namespace Assets.Scripts.Containers
             //parametres:
              //(enabled) toggle type
             
-            if (objectsLensFlare != null) objectsLensFlare.GetComponent<LensFlare>().enabled = enabled;
+            if (objectsLensFlare != null) for (int i = 0; i < objectsLensFlare.Length; i++) objectsLensFlare[i].GetComponent<LensFlare>().enabled = enabled;
             if (objectsParticles != null)
             {
-                if (enabled && !objectsParticles.GetComponent<ParticleSystem>().isPlaying) objectsParticles.GetComponent<ParticleSystem>().Play();
-                else if (!enabled && objectsParticles.GetComponent<ParticleSystem>().isPlaying) objectsParticles.GetComponent<ParticleSystem>().Stop();
+                for (int i = 0; i < objectsParticles.Length; i++)
+                {
+                    if (enabled && !objectsParticles[i].GetComponent<ParticleSystem>().isPlaying) objectsParticles[i].GetComponent<ParticleSystem>().Play();
+                    else if (!enabled && objectsParticles[i].GetComponent<ParticleSystem>().isPlaying) objectsParticles[i].GetComponent<ParticleSystem>().Stop();
+                }
             }
         }
         

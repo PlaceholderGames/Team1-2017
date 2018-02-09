@@ -18,8 +18,8 @@ namespace Assets.Scripts.AI
         public GameObject overrideObjective = null; //specified override objective for an object to travel to
 
         //object effect references so that they can be controlled by AI actions
-        public GameObject lensflare = null; //reference to lens flare
-        public GameObject particles = null; //reference to particles
+        public GameObject[] lensflare = null; //reference to lens flare
+        public GameObject[] particles = null; //reference to particles
 
         //variables for how the object is supposed to interact
         public float maxSpeed = 10f; //speed limit for object
