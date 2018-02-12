@@ -1,6 +1,11 @@
 fileFormatVersion: 2
+<<<<<<< HEAD
 guid: ea6e4ecbffa56b140b4b6ffbb89e1016
 timeCreated: 1517224677
+=======
+guid: 930ac4ee2b8e3be41a326c4cec149e91
+timeCreated: 1517329546
+>>>>>>> MenuBranch
 licenseType: Pro
 NativeFormatImporter:
   mainObjectFileID: 2100000
