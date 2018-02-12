@@ -10,7 +10,7 @@ namespace Assets.Scripts.Movement
     public class RCS : MonoBehaviour
     {
         private Transform ship; //internal reference for ship the RCS has to stablise
-        private Quaternion previous; //stores the last rotational data of the ship[
+        private Quaternion previous; //stores the last rotational data of the ship
 
         void Start() { ship = gameObject.GetComponent<Transform>(); }
 
@@ -30,9 +30,11 @@ namespace Assets.Scripts.Movement
 
         private float StabliseAxis(float current, float previous)
         {
+            Debug.Log("Current " + current);
+            Debug.Log("Previous " + previous);
             //IMPLEMENT KALMAN FILTER
             float difference = current - previous;
-            if (difference < -0.5 || difference > 0.5) return previous;
+            if (difference < -0.01 || difference > 0.01) return previous;
             else return current;
         }
     }

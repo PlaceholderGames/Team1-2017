@@ -21,7 +21,10 @@ public class CameraMovement : MonoBehaviour
 
     void Update()
     {
-        Vector3 vctPlayerPos = new Vector3(probe.GetComponent<ProbeVariables>().GetPosition().x + XAdjust, probe.GetComponent<ProbeVariables>().GetPosition().y + YAdjust, probe.GetComponent<ProbeVariables>().GetPosition().z + ZAdjust);
-        transform.position = vctPlayerPos;
+        if (probe)
+        {
+            Vector3 vctPlayerPos = new Vector3(probe.GetComponent<ProbeVariables>().GetPosition().x + XAdjust, probe.GetComponent<ProbeVariables>().GetPosition().y + YAdjust, probe.GetComponent<ProbeVariables>().GetPosition().z + ZAdjust);
+            transform.position = vctPlayerPos;
+        }
     }
 }

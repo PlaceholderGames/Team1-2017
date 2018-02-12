@@ -11,9 +11,9 @@ public class CameraRotate : MonoBehaviour
         playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
 	}
 	
-	void FixedUpdate ()
+	void FixedUpdate()
     {
         //lerp the camera roatiton for a smooth effect
-        transform.rotation = Quaternion.Lerp(transform.rotation, playerTransform.rotation, rotateSpeed * Time.deltaTime);
+        if (playerTransform) transform.rotation = Quaternion.Lerp(transform.rotation, playerTransform.rotation, rotateSpeed * Time.deltaTime);
 	}
 }
