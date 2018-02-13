@@ -12,15 +12,15 @@ public class Atmospherics : MonoBehaviour
     public float ScaleFactor = 100000; //used for converting distance values into a scaled-down decimals
     public float InteractivityRange = 100; //declares how close the object has to be for burning up
     public GameObject particles; //reference to particles effect for burning
-    private BodyVariables[] Bodies; //container of all planetary bodies
+    private BodyObject[] Bodies; //container of all planetary bodies
     private bool[] isInRange; //array of flags that indicate what body the planet is within range of
 
     void Start()
     {
         //populate Bodies array with all planets
         GameObject[] planets = GameObject.FindGameObjectsWithTag("Planet"); //get local reference to all planets
-        Bodies = new BodyVariables[planets.Length]; //initialise Bodies array
-        for (int i = 0; i < planets.Length; i++) Bodies[i] = planets[i].GetComponent<BodyVariables>();
+        Bodies = new BodyObject[planets.Length]; //initialise Bodies array
+        for (int i = 0; i < planets.Length; i++) Bodies[i] = planets[i].GetComponent<BodyObject>();
 
         //initialise bool for in range 
         isInRange = new bool[Bodies.Length];
@@ -54,15 +54,15 @@ public class Atmospherics : MonoBehaviour
         particles.GetComponent<ParticleSystem>().Stop();
     }
 
-    public bool checkInRange(BodyVariables obj)
+    public bool checkInRange(BodyObject obj)
     {
         //purpose: checks if the object is in range of the passed through planetary body
         //parametres:
-            //(obj) body's BodyVariables for getting planetary data from
+            //(obj) body's BodyObject for getting planetary data from
         //usage: inside internal FixedUpdate()
 
         //calculate relative distance between object and body
-        Vector3 direction = obj.GetPosition() - GetComponent<ProbeVariables>().GetPosition();
+        Vector3 direction = obj.GetPosition() - GetComponent<ProbeObject>().GetPosition();
         float distance = direction.magnitude;
 
         //check if object and body are within range

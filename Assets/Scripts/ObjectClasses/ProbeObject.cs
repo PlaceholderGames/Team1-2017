@@ -1,11 +1,11 @@
 ﻿/*
-    purpose: variables object for player/probe
+    purpose: variables class for probes
     usage: only used on probe entities
 */
 
 using UnityEngine;
 
-public class ProbeVariables : GeneralVariables
+public class ProbeObject : GeneralObject
 {
     //probe module stats
     private float CommunicationDistance = 10000.0f; //distance the probe can communicate over
@@ -21,13 +21,11 @@ public class ProbeVariables : GeneralVariables
     private int OverallTier = 1; //overall tier of probe
 
     //other stats
-    private int Materials = 0;
+    public int Munitions = 100; //amount of projectiles the probe can hold
+    private int Materials = 0; //amount of materials the probe is carrying
 
-    override public void DerivedStart()
-    {
-        //purpose: ensures overall tier is correct
-        OverallTier = (int)System.Math.Round((double)((CATier + FTTier + PGTier + SSTier) / 4));
-    }
+    //override Start to allow ProbeObject to calculate its average tier
+    override public void DerivedStart() { OverallTier = (int)System.Math.Round((double)((CATier + FTTier + PGTier + SSTier) / 4)); } 
 
     //variable getters
     public float GetCommunicationDistance() { return CommunicationDistance; }

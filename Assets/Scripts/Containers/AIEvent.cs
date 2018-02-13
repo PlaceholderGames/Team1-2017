@@ -89,7 +89,7 @@ namespace Assets.Scripts.Containers
         {
             //purpose: updates the difference is kilometres between the current and focus objects
 
-            Vector3 difference = eventFocus.GetComponent<GeneralVariables>().GetPosition() - eventAssignee.GetComponent<GeneralVariables>().GetPosition(); //work out difference between both objects
+            Vector3 difference = eventFocus.GetComponent<GeneralObject>().GetPosition() - eventAssignee.GetComponent<GeneralObject>().GetPosition(); //work out difference between both objects
             distanceFromFocus = difference.magnitude;
         }
 
@@ -116,7 +116,7 @@ namespace Assets.Scripts.Containers
 
             //translate object
             Transform transform = eventAssignee.GetComponent<Transform>();
-            GeneralVariables currentFocus = eventFocus.GetComponent<GeneralVariables>();
+            GeneralObject currentFocus = eventFocus.GetComponent<GeneralObject>();
             transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(currentFocus.GetPosition() - transform.position), maxRotate * Time.deltaTime);
             transform.position += transform.forward * maxSpeed * Time.deltaTime;
 

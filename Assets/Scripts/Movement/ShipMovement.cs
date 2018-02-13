@@ -22,7 +22,7 @@ public class ShipMovement : MonoBehaviour
     {
         //purpose: conducts probe movement if certain key(s) are pressed
 
-        if (GetComponent<ProbeVariables>().GetFuel() > 0)
+        if (GetComponent<ProbeObject>().GetFuel() > 0)
         {
             if (Input.GetKey(KeyCode.LeftShift) & Input.GetKey(KeyCode.W)) //if both keys W and LShift are held
             {
@@ -30,7 +30,7 @@ public class ShipMovement : MonoBehaviour
                 GetComponent<Rigidbody>().AddRelativeForce(0, 0, superSpeed * Time.deltaTime, ForceMode.Acceleration);
 
                 //update fuel
-                GetComponent<ProbeVariables>().SetFuel(GetComponent<ProbeVariables>().GetFuel() - superFuelRate);
+                GetComponent<ProbeObject>().SetFuel(GetComponent<ProbeObject>().GetFuel() - superFuelRate);
 
                 //enable engine effects
                 lensflare.GetComponent<LensFlare>().brightness = 1.5f;
@@ -38,13 +38,13 @@ public class ShipMovement : MonoBehaviour
             }
             else if (Input.GetKey(KeyCode.S)) //if key S is held
             {
-                if (previousSpeed > GetComponent<ProbeVariables>().GetCurrentSpeed()) //slow down whilst speed is decreasing
+                if (previousSpeed > GetComponent<ProbeObject>().GetCurrentSpeed()) //slow down whilst speed is decreasing
                 {
                     //slow down probe
                     GetComponent<Rigidbody>().AddRelativeForce(0, 0, -moveSpeed * Time.deltaTime, ForceMode.Acceleration);
 
                     //update fuel
-                    GetComponent<ProbeVariables>().SetFuel(GetComponent<ProbeVariables>().GetFuel() - superFuelRate);
+                    GetComponent<ProbeObject>().SetFuel(GetComponent<ProbeObject>().GetFuel() - superFuelRate);
 
                     //disable engine effects
                     lensflare.GetComponent<LensFlare>().brightness = 0f;
@@ -66,7 +66,7 @@ public class ShipMovement : MonoBehaviour
                 GetComponent<Rigidbody>().AddRelativeForce(0, 0, moveSpeed * Time.deltaTime, ForceMode.Acceleration);
 
                 //update fuel
-                GetComponent<ProbeVariables>().SetFuel(GetComponent<ProbeVariables>().GetFuel() - normalFuelRate);
+                GetComponent<ProbeObject>().SetFuel(GetComponent<ProbeObject>().GetFuel() - normalFuelRate);
 
                 //enable engine effects
                 lensflare.GetComponent<LensFlare>().brightness = 1f;
@@ -89,16 +89,16 @@ public class ShipMovement : MonoBehaviour
         //manage fuel tasks
         if (fuelcounter != null)
         {
-            fuelcounter.GetComponent<Text>().text = "Fuel: " + GetComponent<ProbeVariables>().GetFuelRounded().ToString();
+            fuelcounter.GetComponent<Text>().text = "Fuel: " + GetComponent<ProbeObject>().GetFuelRounded().ToString();
         }
 
         //manage speed tasks
         if (speedometer != null)
         {
-            speedometer.GetComponent<Text>().text = "Speed: " + GetComponent<ProbeVariables>().GetCurrentSpeed().ToString() + " KP/H";
+            speedometer.GetComponent<Text>().text = "Speed: " + GetComponent<ProbeObject>().GetCurrentSpeed().ToString() + " KP/H";
         }
 
         //store current speed to check in the next FixedUpdate call so that the script can ensure the slowdown function doesn't reverse the probe
-        previousSpeed = GetComponent<ProbeVariables>().GetCurrentSpeed();
+        previousSpeed = GetComponent<ProbeObject>().GetCurrentSpeed();
     }
 }
