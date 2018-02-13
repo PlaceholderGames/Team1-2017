@@ -13,7 +13,7 @@ public class PullPatchNotes : MonoBehaviour
 
     IEnumerator GetText()
     {
-        UnityWebRequest www = UnityWebRequest.Get("file:///E:/Space-Game/GithubMenuBranch/TEST%20PATCH%20NOTES.txt");
+        UnityWebRequest www = UnityWebRequest.Get("https://github.com/16009797/MINE/files/1720675/PatchNotes.txt");
         yield return www.Send();
 
         if (www.isError)
