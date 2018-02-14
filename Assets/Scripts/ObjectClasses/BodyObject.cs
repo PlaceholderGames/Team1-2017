@@ -19,8 +19,7 @@ public class BodyObject : GeneralObject
     //events
     private void Rotate()
     {
-        //purpose: rotates the planet naturally
-        //usage: used in FixedUpdate()
+        //purpose: rotates the planetary body with the class's specified rotation speed and rotation direction
 
         if (OrbitRotation == Rotation.clockwise) transform.Rotate(Vector3.up, RotationSpeed * Time.deltaTime);
         else transform.Rotate(Vector3.down, RotationSpeed * Time.deltaTime);

@@ -13,11 +13,7 @@ public class GeneralObject : MonoBehaviour
     public string Population = "0"; //amount of humans living on this body
     public float Health = 100.0f; //entity's health
     public bool ObjectFixed = false; //flags whether the entity should be fixed or movable
-    private GameObject[] Explosions = new GameObject[4];
-
-    //other stats
-    private Vector3 SpeedCurrent;
-    private float SpeedLimit = 100000;
+    protected GameObject[] Explosions = new GameObject[4];
 
     //virtual methods to allow inheritng clases to add their own tasks to core Unity functions via polymorphism
     virtual public void DerivedStart() { } 
@@ -28,32 +24,44 @@ public class GeneralObject : MonoBehaviour
         //load explosion types
         Explosions[0] = AssetDatabase.LoadAssetAtPath("Assets/Effects/Particles/SimpleParticlePack/Resources/Explosions/Explosion01a.prefab", typeof(GameObject)) as GameObject;
         Explosions[1] = AssetDatabase.LoadAssetAtPath("Assets/Effects/Particles/SimpleParticlePack/Resources/Explosions/Explosion01b.prefab", typeof(GameObject)) as GameObject;
-        Explosions[2] = AssetDatabase.LoadAssetAtPath("Assets/Effects/Particles/SimpleParticlePack/Resources/Explosions/Explosion01v.prefab", typeof(GameObject)) as GameObject;
+        Explosions[2] = AssetDatabase.LoadAssetAtPath("Assets/Effects/Particles/SimpleParticlePack/Resources/Explosions/Explosion01c.prefab", typeof(GameObject)) as GameObject;
         Explosions[3] = AssetDatabase.LoadAssetAtPath("Assets/Effects/Particles/SimpleParticlePack/Resources/Explosions/Explosion02.prefab", typeof(GameObject)) as GameObject;
-
-        DerivedStart();
+        DerivedStart(); //calles DerivedStart to allow child classes to use this subroutine to place tasks into Start without overriding completely
     }
 
     void FixedUpdate()
     {
-        if (Health <= 0) //check health
-        {
-            //handle destruction of current object
-            Explode(true);
-        }
-        DerivedFixedUpdate(); //call derived fixed update tasks
+        if (Health <= 0) Explode(true); //if health gone, handle destruction of current object
+        DerivedFixedUpdate();//calles DerivedFixedUpdate to allow child classes to use this subroutine to place tasks into FixeddUpdate without overriding completely
     }
 
     //events
-    public void Explode(bool destroy)
+    public void Explode(bool DestroyObject, int DestroyInSeconds = 3)
     {
-        if (destroy) Destroy(gameObject);
-        for (int i = 0; i < 5; i++) //create five different explosions
+        //purpose: creates explosion effect around the object 
+        //parametres:
+            //(DestroyObject) flags whether the method should also remove the object from the game
+            //(DestroyInSeconds) indicates in how many seconds should Object.Destroy actually remove the object from the game
+
+
+        int completed = 0;
+
+        while (completed < 5) //create five different explosions
         {
-            GameObject newExplosion = Instantiate(Explosions[UnityEngine.Random.Range(0, Explosions.Length - 1)], GetPosition(), new Quaternion(0, 0, 0, 0));
-            newExplosion.GetComponent<ParticleSystem>().Play();
-            Destroy(newExplosion, 3);
+            if (UnityEngine.Random.Range(1, 10) == 10)
+            {
+                GameObject SelectedExplosion = Explosions[UnityEngine.Random.Range(0, Explosions.Length - 1)];
+                if (SelectedExplosion != null) //only proceed if the selected explosion can be proceed (not nulled)
+                {
+                    GameObject newExplosion = Instantiate(SelectedExplosion, GetPosition(), new Quaternion(0, 0, 0, 0));
+                    newExplosion.GetComponent<ParticleSystem>().Play();
+                    Destroy(newExplosion, DestroyInSeconds);
+                }
+                completed++;
+            }
         }
+
+        if (DestroyObject) Destroy(gameObject);
     }
 
     //variable getters
@@ -63,6 +71,5 @@ public class GeneralObject : MonoBehaviour
     public void SetPopulation(long newPopulation) { Population = newPopulation.ToString(); }
     public long GetPopulation() { return Convert.ToInt64(Population); }
     public float GetCurrentSpeed() { return GetComponent<Rigidbody>().velocity.magnitude * 3.6f; /* multiplying result by 3.6 converts m/s to KPH */ }
-    public float GetSpeedLimit() { return SpeedLimit; }
-    virtual public float GetSize() { return 0; }
+    virtual public float GetSize() { return 0; /* only supposed to be used by BodyObject */ }
 }

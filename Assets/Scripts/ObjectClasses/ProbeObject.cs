@@ -21,7 +21,7 @@ public class ProbeObject : GeneralObject
     private int OverallTier = 1; //overall tier of probe
 
     //other stats
-    public int Munitions = 100; //amount of projectiles the probe can hold
+    private int Munitions = 100; //amount of projectiles the probe can hold
     private int Materials = 0; //amount of materials the probe is carrying
 
     //override Start to allow ProbeObject to calculate its average tier
@@ -35,6 +35,7 @@ public class ProbeObject : GeneralObject
     public float GetSensorCapacity() { return SensorCapacityBonus; }
     public int GetTier() { return OverallTier; }
     public int GetMaterialsCount() { return Materials; }
+    public int GetMunitionsRemaining() { return Munitions; }
 
     //variable setters
     public void SetFuel(float newFuelVal) { Fuel = newFuelVal; }
@@ -42,4 +43,6 @@ public class ProbeObject : GeneralObject
     public void SetFuelTankTier(int newFTVal) { FTTier = newFTVal; }
     public void SetPowerGeneratorTier(int newPGVal) { PGTier = newPGVal; }
     public void SetSensorSuiteTier(int newSSVal) { SSTier = newSSVal; }
+    public void SetMaterialsCount(int newMaterials) { Materials = newMaterials; }
+    public void SetMunitionsRemaining(int newMunitions) { Munitions = newMunitions; }
 }

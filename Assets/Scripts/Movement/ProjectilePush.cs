@@ -9,16 +9,28 @@ namespace Assets.Scripts.Movement
 {
     class ProjectilePush : MonoBehaviour
     {
-		public float Consumption = 1.5f; //rate of which the projectile consumes fuel
+        //public GameObject lens = null;
+        //public GameObject particles = null;
+        public float Consumption = 1.5f; //rate of which the projectile consumes fuel
+        //private float UntilIgnition = 0.25f; 
+
+        void Start()
+        {
+            //lens.GetComponent<LensFlare>().enabled = false;
+            //particles.GetComponent<ParticleSystem>().Pause();
+        }
 
         void FixedUpdate()
         {
-			if (GetComponent<ProjectileObject>().Fuel > 0) //travel only if fuel is available
-			{
-				GetComponent<Rigidbody>().AddRelativeForce(0, 0, GetComponent<ProjectileObject>().ForceForSpeed * Time.deltaTime, ForceMode.Acceleration); //push projectile with relative force 
-                GetComponent<ProjectileObject>().Fuel -= Consumption;
-			}
-			else Destroy(gameObject);
+           // UntilIgnition -= Time.deltaTime;
+            //if (UntilIgnition <= 0)
+            //{
+            //    lens.GetComponent<LensFlare>().enabled = true;
+            //    particles.GetComponent<ParticleSystem>().Play();
+           // }
+
+            GetComponent<Rigidbody>().AddRelativeForce(0, 0, (GetComponent<ProjectileObject>().ForceForSpeed + GetComponent<ProjectileObject>().ParentSpeed) * Time.deltaTime, ForceMode.Acceleration); //push projectile with relative force 
+            GetComponent<ProjectileObject>().Fuel -= Consumption;
         }
 
         void OnCollisionEnter(Collision collision)
@@ -32,6 +44,7 @@ namespace Assets.Scripts.Movement
 
             //destroy missile itself
             objThis.Explode(true);
+
         }
     }
 }

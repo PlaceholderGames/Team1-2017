@@ -17,7 +17,7 @@ public class ShipCollision : MonoBehaviour
     
     void OnCollisionStay(Collision collision)
     {
-        if (countdown <= 0f)
+        if (countdown <= 0f && !collision.collider.GetComponent<ProjectileObject>())
         {
             //get local references of collided objects
             GeneralObject objThem = collision.collider.GetComponent<GeneralObject>();
@@ -29,10 +29,6 @@ public class ShipCollision : MonoBehaviour
             else dmgInflicted = CalculateDamage(objThis.GetMass(), 0, objThem.GetMass());
             objThem.Health -= dmgInflicted;
             objThis.Health -= dmgInflicted;
-
-            //check for deaths
-            if (objThem.Health <= 0) Destroy(objThem.gameObject);
-            if (objThis.Health <= 0) objThis.Explode(true);
 
             //reset countdowns
             if (!objThem.GetComponent<BodyObject>()) countdown = 100.0f;
