@@ -4,6 +4,7 @@
 */
 
 using System;
+using System.Collections;
 using UnityEditor;
 using UnityEngine;
 
@@ -43,24 +44,10 @@ public class GeneralObject : MonoBehaviour
             //(DestroyObject) flags whether the method should also remove the object from the game
             //(DestroyInSeconds) indicates in how many seconds should Object.Destroy actually remove the object from the game
 
-
-        int completed = 0;
-
-        while (completed < 5) //create five different explosions
-        {
-            if (UnityEngine.Random.Range(1, 10) == 10)
-            {
-                GameObject SelectedExplosion = Explosions[UnityEngine.Random.Range(0, Explosions.Length - 1)];
-                if (SelectedExplosion != null) //only proceed if the selected explosion can be proceed (not nulled)
-                {
-                    GameObject newExplosion = Instantiate(SelectedExplosion, GetPosition(), new Quaternion(0, 0, 0, 0));
-                    newExplosion.GetComponent<ParticleSystem>().Play();
-                    Destroy(newExplosion, DestroyInSeconds);
-                }
-                completed++;
-            }
-        }
-
+        GameObject SelectedExplosion = Explosions[UnityEngine.Random.Range(0, Explosions.Length - 1)];
+        GameObject newExplosion = Instantiate(SelectedExplosion, GetPosition(), new Quaternion(0, 0, 0, 0));
+        newExplosion.GetComponent<ParticleSystem>().Play();
+        Destroy(newExplosion, DestroyInSeconds);
         if (DestroyObject) Destroy(gameObject);
     }
 
