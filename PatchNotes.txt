@@ -1,0 +1,174 @@
+V1.1:
+
+- Inital menu build
+
+
+V1.2:
+
+- Added menu music
+- Added sfx when hovering over buttons, or when entering or exiting different panels
+- Added animation when hovering over buttons
+- Added transitions between panels and scenes (Start & Exit) when clicking on the buttons
+
+
+V1.3:
+
+- Added functionality to the master, music and SFX volume sliders, under the Audio panel
+
+
+V1.4:
+
+- New background for all menu panels
+- Colours for the panels, buttons, sliders and highlighted objects have been updated to a green tone
+- Changed spacing on the Audio panel
+- Swapped sounds for the Start and Exit buttons when pressed
+- Added dynamic 3D tilt to menu panels depending on mouse position
+
+
+V1.5:
+
+- New transition animations for the Help and Audio panels
+- Altered the range of the dynamic 3D tilt
+
+
+V1.6:
+
+- Added splash-screen with temporary logo, functionality enter main menu through clicking or pressing any key.
+- Colours for the panels, buttons, sliders and highlighted objects have been updated to new individual colours.
+- Removed changing colour when hovering over button
+- Particle system now creates particles from the back and floats to the front in the z-axis
+- Menu theme music has been updated
+- New font and size for text across the menu panels [REFERENCE PENDING]
+- Icons have been added for the buttons on the main menu panel [REFERENCE PENDING]
+- New fade in from black when starting the game (when game launches, not when 'Start' button is clicked)
+ 
+  Known Issues:
+
+- New transition animations from V1.5 have been removed, will return in a future version.
+- Version number shows V1.5 instead of V1.6
+
+
+V1.65:
+
+- Added back the transition animations from V1.5
+
+
+V1.68:
+
+- Audio button on Main Menu Panel has been renamed to Options
+- Repositioned objects in Audio Panel
+- New Options Panel has been added, which houses the Audio Panel, and has buttons for Audio, Camera and Key Bindings
+
+  Known Issues:
+
+- Options/Audio Panel has no tilt effect
+- Buttons on Options Panel have no functionality (new panels added in next v1.X version)
+- Main Menu buttons have a new unintended highlighted animation
+- Options Panel fails to return after leaving Options Panel then trying to return to it
+
+
+V1.69:
+
+- Camera Panel added in Options Panel, which can be switched to using the Camera button
+- Animations added for opening and closing of Option Panels, when switching between the different panels
+- Buttons at the top of Options Panel now have a unique 'colour-changing' animation when hovering over them
+- When viewing a panel in the Options Panel, the associated button will be disabled and greyed-out
+- Main Menu & Back buttons have a new scale when highlighted animation
+
+  Fixed Issues:
+
+- Options, Audio, Camera and Key Bindings Panels now have tilt effect
+- Options Panel now returns after leaving Options Panel then trying to return to it
+
+  Known Issues:
+
+- Key Bindings button on Options Panel has no functionality
+- Overlap and animation conflict when trying to open Camera Panel from Audio Panel
+
+  Upcoming Development:
+
+- Options to be added to the Camera and Key Bindings Panels
+- Start Screen & Icon
+
+
+V1.69.5:
+
+- Reduced file size of project, by removing unused resources
+- Added game icon and game boot-up screen
+
+  Known Issues:
+
+- Key Bindings button on Options Panel has no functionality
+- Overlap and animation conflict when trying to open Camera Panel from Audio Panel
+- Version number shows v1.69
+
+  Upcoming Development:
+
+- Options to be added to the Camera and Key Bindings Panels
+
+
+V1.7:
+
+- Added features and changes from v1.65 - V1.69.5
+- Version number is now V1.7
+
+  Known Issues:
+
+- Overlap and animation conflict when transitioning from different Option panels.
+
+  Upcoming Development:
+
+- Options to be added to the Camera and Key Bindings Panels
+
+
+V1.71:
+
+- Closing animations for the panels in the Options panel now play when transitioning from panel to panel*
+- Added a Credits panel in the Help Panel, along with a Credits button*
+
+  Known Issues:
+
+- Panels in the Options panel can overlap when returning to the main menu then back to the Options panel
+- Credits button in Help panel has no functionality
+
+  Upcoming Development:
+
+- Options to be added to the various Options panels
+- Patch notes to be pulled from server and showed in-game as text
+
+
+V1.71.3:
+
+- Credits button now has functionality, which displays and scrolls the graphics
+- Player can click on the screen when credits are scrolling to exit back to main menu
+- Adjusted the alpha of the main menu panel to have more rich coloured buttons
+
+  Known Issues:
+
+- Credit text is still incomplete and just placeholder
+- Credit placement will need to be adjusted
+- Credits do not automatically return to main menu when complete
+- Panels in the Options panel can overlap when returning to the main menu then back to the Options panel
+
+  Upcoming Development:
+
+- Options to be added to the various Options panels
+- Patch notes to be pulled from server and showed in-game as text
+
+
+V1.71.5:
+
+- Adjusted position of credits to be more centered when playing
+- Credits now automatically return to main menu when complete
+- Panels in the Options panel no longer overlap initially when returning to the main menu then back to the Options panel
+- Text is now displayed in the Key Bindings panel (will be renamed and re-purposed) which currently pulls text from a local .txt file (will eventually pull patch notes from a server).
+
+  Known Issues:
+
+- When returning to the Options panel from the main menu, and then switch a different panel in the Option panel, the panel can disappear.
+
+  Upcoming Development:
+
+- Options to be added to the various Options panels
+- Patch notes to be pulled from server
+- Credit text is still incomplete and just placeholder
