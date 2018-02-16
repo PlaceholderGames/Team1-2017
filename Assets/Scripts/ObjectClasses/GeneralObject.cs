@@ -46,8 +46,11 @@ public class GeneralObject : MonoBehaviour
 
         GameObject SelectedExplosion = Explosions[UnityEngine.Random.Range(0, Explosions.Length - 1)];
         GameObject newExplosion = Instantiate(SelectedExplosion, GetPosition(), new Quaternion(0, 0, 0, 0));
-        newExplosion.GetComponent<ParticleSystem>().Play();
-        Destroy(newExplosion, DestroyInSeconds);
+        if (newExplosion != null)
+        {
+            newExplosion.GetComponent<ParticleSystem>().Play();
+            Destroy(newExplosion, DestroyInSeconds);
+        }
         if (DestroyObject) Destroy(gameObject);
     }
 

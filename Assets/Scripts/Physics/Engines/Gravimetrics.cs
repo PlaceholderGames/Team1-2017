@@ -26,9 +26,12 @@ public class Gravimetrics : MonoBehaviour
         if (GetComponent<Atmospherics>()) GetComponent<Atmospherics>().ResetDrag(); //reset drag so new calculation can be used
         for (int i = 0; i < Bodies.Length; i++)
         {
-            currentGrav = GetGravity(Bodies[i]); //get gravity calculation result
-            GetComponent<Rigidbody>().AddRelativeForce(currentGrav.GetForce()); //apply gravimetric force
-            if (GetComponent<Atmospherics>()) GetComponent<Atmospherics>().ApplyDragDueToGravity(currentGrav); //call for atmospheric drag to be applied
+            if (Bodies[i])
+            {
+                currentGrav = GetGravity(Bodies[i]); //get gravity calculation result
+                GetComponent<Rigidbody>().AddRelativeForce(currentGrav.GetForce()); //apply gravimetric force
+                if (GetComponent<Atmospherics>()) GetComponent<Atmospherics>().ApplyDragDueToGravity(currentGrav); //call for atmospheric drag to be applied
+            }
         }
     }
 
@@ -36,7 +39,7 @@ public class Gravimetrics : MonoBehaviour
     {
         //purpose: calculates a gravimetric result optimised for when the probe is moving
         //parametres:
-        //(body) body to calculate gravity with
+            //(body) body to calculate gravity with
         //usage: for when the probe is moving and needs a GravityProperties result for application elsewhere
 
         Vector3 direction = body.GetPosition() - GetComponent<GeneralObject>().GetPosition(); //work out direction between both objects

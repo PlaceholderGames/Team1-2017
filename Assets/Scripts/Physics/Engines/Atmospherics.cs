@@ -58,8 +58,11 @@ public class Atmospherics : MonoBehaviour
     {
         //purpose: checks if the object is in range of the passed through planetary body
         //parametres:
-            //(obj) body's BodyObject for getting planetary data from
+        //(obj) body's BodyObject for getting planetary data from
         //usage: inside internal FixedUpdate()
+
+        //throw if BodyObjects refers to a destroyed object
+        if (!obj) return false;
 
         //calculate relative distance between object and body
         Vector3 direction = obj.GetPosition() - GetComponent<ProbeObject>().GetPosition();
