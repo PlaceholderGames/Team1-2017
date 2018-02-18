@@ -1,12 +1,18 @@
-﻿using UnityEngine;
+﻿/*
+    purpose: enables a playable object to fire missiles
+    usage: probes only
+*/
+
+using UnityEngine;
 
 namespace Assets.Scripts.Offence
 {
     class Firing : MonoBehaviour
     {
         public GameObject projectile = null; //prefab of projectile
-        private float Countdown = 0f;
-        private ProbeObject probe;
+        private float Cooldown = 0f; //cooldown to prevent missiles from being continously rapid-fired
+        public float CooldownTime = 1f; //stores desired cooldown time
+        private ProbeObject probe; //internal reference for the probe object
 
         void Start()
         {
@@ -15,9 +21,9 @@ namespace Assets.Scripts.Offence
 
         void FixedUpdate()
         {
-            Countdown -= Time.deltaTime;
+            Cooldown -= Time.deltaTime; //decrement cooldown each FixedUpdate
 
-            if (probe.GetMunitionsRemaining() > 0 && Countdown <= 0)
+            if (probe.GetMunitionsRemaining() > 0 && Cooldown <= 0f) //only fire if munitions count and cooldown allow
             {
                 if (Input.GetKey(KeyCode.Space))
                 {
@@ -25,7 +31,7 @@ namespace Assets.Scripts.Offence
                     newProjectile.GetComponent<ProjectileObject>().ParentSpeed = probe.GetCurrentSpeed();
                     probe.SetMunitionsRemaining(probe.GetMunitionsRemaining() - 1);
                 }
-                Countdown = 0.5f;
+                Cooldown = CooldownTime; //enable cooldown on firing
             }
         }
     }

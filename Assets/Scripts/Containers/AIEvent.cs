@@ -97,7 +97,7 @@ namespace Assets.Scripts.Containers
         {
             //purposes: toggles particle and lens flare effect
             //parametres:
-             //(enabled) toggle type
+                //(enabled) toggle type
             
             if (objectsLensFlare != null) for (int i = 0; i < objectsLensFlare.Length; i++) objectsLensFlare[i].GetComponent<LensFlare>().enabled = enabled;
             if (objectsParticles != null)
