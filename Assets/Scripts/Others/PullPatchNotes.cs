@@ -13,7 +13,7 @@ public class PullPatchNotes : MonoBehaviour
 
     IEnumerator GetText()
     {
-        UnityWebRequest www = UnityWebRequest.Get("https://github.com/16009797/MINE/files/1720675/PatchNotes.txt");
+        UnityWebRequest www = UnityWebRequest.Get("http://khalidali.co.uk/patch_notes.txt");
         yield return www.Send();
 
         if (www.isError)

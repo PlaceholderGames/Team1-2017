@@ -51,12 +51,4 @@ public class LoadDesiredPanelInOptions : MonoBehaviour {
             clickedButton.interactable = false;
         }
     }
-
-    IEnumerator DoAnimation()
-    {
-        Debug.Log("This happens 2 seconds later. Tada.");
-        
-        yield return new WaitForSeconds(300f); // wait for two seconds.
-        
-    }
 }
