@@ -8,25 +8,28 @@ using UnityEngine;
 
 public class Atmospherics : MonoBehaviour
 {
-    private float AtmosphericUnit = 0.25f; //used as a base unit for calculating relative drag with
-    private float ScaleFactor = 100000; //used for converting distance values into a scaled-down decimals
-
-    //examplar variables for singular burning demo
+    public float AtmosphericUnit = 0.25f; //used as a base unit for calculating relative drag with
+    public float ScaleFactor = 100000; //used for converting distance values into a scaled-down decimals
+    public float InteractivityRange = 100; //declares how close the object has to be for burning up
     public GameObject particles; //reference to particles effect for burning
-    public GameObject[] objsToBurnIn; //array of objects for the script to simulate atmospheric effects with
-    public int[] burnBounds; //array of boundaries that corresponds to objsToBurnIn
+    private BodyVariables[] Bodies; //container of all planetary bodies
     private bool[] isInRange; //array of flags that indicate what body the planet is within range of
 
     void Start()
     {
+        //populate Bodies array with all planets
+        GameObject[] planets = GameObject.FindGameObjectsWithTag("Planet"); //get local reference to all planets
+        Bodies = new BodyVariables[planets.Length]; //initialise Bodies array
+        for (int i = 0; i < planets.Length; i++) Bodies[i] = planets[i].GetComponent<BodyVariables>();
+
         //initialise bool for in range 
-        isInRange = new bool[objsToBurnIn.Length];
+        isInRange = new bool[Bodies.Length];
     }
 
     void FixedUpdate()
     {
         //check what bodies the object is within range of
-        for (int i = 0; i < objsToBurnIn.Length; i++) isInRange[i] = checkInRange(objsToBurnIn[i].GetComponent<BodyVariables>(), burnBounds[i]);
+        for (int i = 0; i < Bodies.Length; i++) isInRange[i] = checkInRange(Bodies[i]);
 
         //attempt to apply burning effect if applicable
         attemptBurn();
@@ -51,12 +54,11 @@ public class Atmospherics : MonoBehaviour
         particles.GetComponent<ParticleSystem>().Stop();
     }
 
-    public bool checkInRange(BodyVariables obj, int bound)
+    public bool checkInRange(BodyVariables obj)
     {
         //purpose: checks if the object is in range of the passed through planetary body
         //parametres:
             //(obj) body's BodyVariables for getting planetary data from
-            //(bound) body's associated bound for comparison against object's distance from body
         //usage: inside internal FixedUpdate()
 
         //calculate relative distance between object and body
@@ -64,7 +66,7 @@ public class Atmospherics : MonoBehaviour
         float distance = direction.magnitude;
 
         //check if object and body are within range
-        if (distance < bound) return true;
+        if (distance < obj.GetSize() + InteractivityRange) return true;
         else return false;
     }
 

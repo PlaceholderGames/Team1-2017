@@ -1,7 +1,13 @@
 fileFormatVersion: 2
+<<<<<<< HEAD
 guid: 3e23cfd368371284ea60a25cf5238069
 folderAsset: yes
 timeCreated: 1517224677
+=======
+guid: b921566770b2a7f4199e846faa83e139
+folderAsset: yes
+timeCreated: 1517329546
+>>>>>>> MenuBranch
 licenseType: Pro
 DefaultImporter:
   userData: 
