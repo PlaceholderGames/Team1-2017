@@ -15,6 +15,7 @@ public class AnyKeyContinue : MonoBehaviour
         {
             gameObject.SetActive(false);
             MainMenu.SetActive(true);
+            MainMenu.GetComponent<CanvasGroup>().interactable = true;
         }
     }
 }
