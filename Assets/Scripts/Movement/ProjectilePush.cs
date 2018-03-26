@@ -1,50 +1,47 @@
-﻿/*
-    purpose: pushes projectile/missile/torpedo when it is launched
-    usage: projectile/missile/torpedo
-*/
+﻿using UnityEngine;
 
-using UnityEngine;
-
-namespace Assets.Scripts.Movement
+/// <summary>
+/// Pushes projectile/missile/torpedo when it is launched
+/// </summary>
+class ProjectilePush : MonoBehaviour
 {
-    class ProjectilePush : MonoBehaviour
+    /// <summary>
+    /// Projectile's fuel consumption rate
+    /// </summary>
+    public float Consumption = 1.5f; 
+
+    void FixedUpdate()
     {
-        //public GameObject lens = null;
-        //public GameObject particles = null;
-        public float Consumption = 1.5f; //rate of which the projectile consumes fuel
-        //private float UntilIgnition = 0.25f; 
+        GetComponent<Rigidbody>().AddForce(transform.forward * GetComponent<ProjectileObject>().ForceForSpeed);
+        //GetComponent<Rigidbody>().AddRelativeForce(0, 0, (GetComponent<ProjectileObject>().ForceForSpeed + GetComponent<ProjectileObject>().ParentSpeed) * Time.deltaTime, ForceMode.Acceleration); //push projectile with relative force 
+        GetComponent<ProjectileObject>().Fuel -= Consumption;
+    }
 
-        void Start()
+    void OnCollisionEnter(Collision collision)
+    {
+        //get local references of collided objects
+        GeneralObject objThem = collision.collider.GetComponent<GeneralObject>();
+        ProjectileObject objThis = GetComponent<ProjectileObject>();
+
+        //calculate damage inflicted
+        float damage = Random.Range(0, objThis.DamageOutput);
+
+        //inflict damage to them upon hit
+
+        if (objThem.GetPopulation() > 0) //if population exists, kill population before damaging object itself
         {
-            //lens.GetComponent<LensFlare>().enabled = false;
-            //particles.GetComponent<ParticleSystem>().Pause();
+            if (objThem.GetPopulation() - damage > 0) objThem.SetPopulation(objThem.GetPopulation() - (int)damage); //all damage to population if population remains above 0
+            else
+            {
+                //kill entire population and inflict remainder damage on object iself
+                damage -= (damage - objThem.GetPopulation());
+                objThem.SetPopulation(0);
+                objThem.Health -= damage;
+            }
         }
+        else objThem.Health -= Random.Range(0, objThis.DamageOutput);
 
-        void FixedUpdate()
-        {
-           // UntilIgnition -= Time.deltaTime;
-            //if (UntilIgnition <= 0)
-            //{
-            //    lens.GetComponent<LensFlare>().enabled = true;
-            //    particles.GetComponent<ParticleSystem>().Play();
-           // }
-
-            GetComponent<Rigidbody>().AddRelativeForce(0, 0, (GetComponent<ProjectileObject>().ForceForSpeed + GetComponent<ProjectileObject>().ParentSpeed) * Time.deltaTime, ForceMode.Acceleration); //push projectile with relative force 
-            GetComponent<ProjectileObject>().Fuel -= Consumption;
-        }
-
-        void OnCollisionEnter(Collision collision)
-        {
-            //get local references of collided objects
-            GeneralObject objThem = collision.collider.GetComponent<GeneralObject>();
-            ProjectileObject objThis = GetComponent<ProjectileObject>();
-
-            //inflict damage to them upon hit
-            objThem.Health -= Random.Range(0, objThis.DamageOutput);
-
-            //destroy missile itself
-            objThis.Explode(true);
-
-        }
+        //destroy missile itself
+        objThis.Explode(true);
     }
 }

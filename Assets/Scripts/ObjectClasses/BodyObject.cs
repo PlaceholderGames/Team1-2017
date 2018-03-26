@@ -12,7 +12,11 @@ public class BodyObject : GeneralObject
     public float GravimetricStrength = 1f; //gravimetric strength outputted by entity (used as a factoring variable)
     public float RotationSpeed = 0.01f; //speed of planetary rotation
     public Rotation OrbitRotation = Rotation.clockwise; //enumeration of rotation direction
+<<<<<<< HEAD
     public int difficulty = 0;
+=======
+    public int difficulty = 0; //for asteroid difficulty during drilling 
+>>>>>>> physics
 
     //override FixedUpdate to allow BodyObject to rotate
     override public void DerivedFixedUpdate() { Rotate(); }

@@ -4,7 +4,6 @@
 */
 
 using System;
-using System.Collections;
 using UnityEditor;
 using UnityEngine;
 
@@ -16,7 +15,7 @@ public class GeneralObject : MonoBehaviour
     public bool ObjectFixed = false; //flags whether the entity should be fixed or movable
     protected GameObject[] Explosions = new GameObject[4];
 
-    //virtual methods to allow inheritng clases to add their own tasks to core Unity functions via polymorphism
+    //virtual methods to allow inheritng classes to add their own tasks to core Unity functions via polymorphism
     virtual public void DerivedStart() { } 
     virtual public void DerivedFixedUpdate() { } 
 
@@ -46,8 +45,11 @@ public class GeneralObject : MonoBehaviour
 
         GameObject SelectedExplosion = Explosions[UnityEngine.Random.Range(0, Explosions.Length - 1)];
         GameObject newExplosion = Instantiate(SelectedExplosion, GetPosition(), new Quaternion(0, 0, 0, 0));
-        newExplosion.GetComponent<ParticleSystem>().Play();
-        Destroy(newExplosion, DestroyInSeconds);
+        if (newExplosion != null)
+        {
+            newExplosion.GetComponent<ParticleSystem>().Play();
+            Destroy(newExplosion, DestroyInSeconds);
+        }
         if (DestroyObject) Destroy(gameObject);
     }
 

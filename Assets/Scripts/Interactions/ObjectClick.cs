@@ -1,16 +1,25 @@
-﻿/*
-    purpose: handles when player clicks on an object
-    usage: attached to probe
-*/
-
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
+/// <summary>
+/// Handles when a player clicks on an object
+/// </summary>
 public class ObjectClick : MonoBehaviour
 {
-    public GameObject selectedObjectName; //reference to selected object's name label object
-    public GameObject selectedObjectPopulation; //reference to selected object's population label object
-    private float untilTimeout = 0.0f; //used for timeout for when the labels should be cleared after clicking an object
+    /// <summary>
+    /// Reference to selected object's name label object
+    /// </summary>
+    public GameObject selectedObjectName;
+
+    /// <summary>
+    /// Reference to selected object's population label object
+    /// </summary>
+    public GameObject selectedObjectPopulation;
+
+    /// <summary>
+    /// Timeout for when the labels should be cleared after clicking an object
+    /// </summary>
+    private float untilTimeout = 0.0f;
 
     void Update()
     {

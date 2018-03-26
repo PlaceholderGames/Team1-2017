@@ -1,19 +1,39 @@
-﻿/*
-    purpose: atmosphere physics (atmospherics) engine
-    usage: for objects that require a simulation of the atmospheric entry effects
-*/
+﻿using UnityEngine;
 
-using Assets.Scripts.Others;
-using UnityEngine;
-
+/// <summary>
+/// Atmosphere physics ("Atmospherics") engine
+/// </summary>
 public class Atmospherics : MonoBehaviour
 {
-    public float AtmosphericUnit = 0.25f; //used as a base unit for calculating relative drag with
-    public float ScaleFactor = 100000; //used for converting distance values into a scaled-down decimals
-    public float InteractivityRange = 100; //declares how close the object has to be for burning up
-    public GameObject particles; //reference to particles effect for burning
-    private BodyObject[] Bodies; //container of all planetary bodies
-    private bool[] isInRange; //array of flags that indicate what body the planet is within range of
+    /// <summary>
+    /// Base unit for calculating relative drag with
+    /// </summary>
+    public float AtmosphericUnit = 0.25f;
+
+    /// <summary>
+    /// Used for converting distance values into a scaled-down decimals
+    /// </summary>
+    public float ScaleFactor = 100000;
+
+    /// <summary>
+    /// Declares how close the object has to be for burning up
+    /// </summary>
+    public float InteractivityRange = 100;
+
+    /// <summary>
+    /// Reference to particle system responsible for burning effect
+    /// </summary>
+    public GameObject particles;
+
+    /// <summary>
+    /// Container of all planetary bodies
+    /// </summary>
+    private BodyObject[] Bodies;
+
+    /// <summary>
+    /// Array of flags that indicate what body the planet is within range of
+    /// </summary>
+    private bool[] isInRange; 
 
     void Start()
     {
@@ -35,11 +55,11 @@ public class Atmospherics : MonoBehaviour
         attemptBurn();
     }
 
+    /// <summary>
+    /// Searches through isInRange array to see if burning effect should be applied
+    /// </summary>
     private void attemptBurn()
     {
-        //purpose: searches through isInRange array to see if burning effect should be applied
-        //usage: inside internal FixedUpdate()
-
         for (int i = 0; i < isInRange.Length; i++)
         {
             if (isInRange[i])
@@ -54,12 +74,15 @@ public class Atmospherics : MonoBehaviour
         particles.GetComponent<ParticleSystem>().Stop();
     }
 
+    /// <summary>
+    /// Shecks if the object is in range of the passed through planetary body
+    /// </summary>
+    /// <param name="obj">Body's BodyObject for getting planetary data from</param>
+    /// <returns>Returns a boolean that indicates if a body is within range</returns>
     public bool checkInRange(BodyObject obj)
     {
-        //purpose: checks if the object is in range of the passed through planetary body
-        //parametres:
-            //(obj) body's BodyObject for getting planetary data from
-        //usage: inside internal FixedUpdate()
+        //throw if BodyObjects refers to a destroyed object
+        if (!obj) return false;
 
         //calculate relative distance between object and body
         Vector3 direction = obj.GetPosition() - GetComponent<ProbeObject>().GetPosition();
@@ -70,20 +93,22 @@ public class Atmospherics : MonoBehaviour
         else return false;
     }
 
-
+    /// <summary>
+    /// Calculates and applies drag due to planetary gravity from a pre-calculated GravimetricResult
+    /// </summary>
+    /// <param name="grav">Pre-calculated GravimetricResult (contains a relative force of gravity and distance between planet and object at time of calculation)</param>
     public void ApplyDragDueToGravity(GravimetricResult grav)
     {
-        //purpose: calculates and applies drag due to planetary gravity from a pre-calculated GravimetricResult
-        //parametres:
-            //(grav) pre-calculated GravimetricResult (contains a relative force of gravity and distance between planet and object at time of calculation)
-        //usage: called by the physics FixedUpdate() inside Gravimetrics class when method is calculating gravity
-
         //drag formula: atmospheric unit - (distance in megametres / scaling factor) = drag
         //example distant planet drag calc: 0.25 - (24457 / 100000) = 0.00543 = extremely low drag
         //example close planet drag calc: 0.25 - (1500 / 100000) = 0.235 = extremely high drag
+
         float drag = AtmosphericUnit - (grav.GetDistanceBetweenObjectAndBody() / ScaleFactor); //calculate drag from gravimetrics result's distance
         if (GetComponent<Rigidbody>().drag + drag > 0) GetComponent<Rigidbody>().drag += drag; //ensure applying drag never results in a minus drag value
     }
 
-    public void ResetDrag() { GetComponent<Rigidbody>().drag = 0; } //usage: when Gravimetrics' FixedUpdate() is recalculating total drag
+    /// <summary>
+    /// For resetting drag when Gravimetrics' FixedUpdate() is recalculating total drag
+    /// </summary>
+    public void ResetDrag() { GetComponent<Rigidbody>().drag = 0; }
 }

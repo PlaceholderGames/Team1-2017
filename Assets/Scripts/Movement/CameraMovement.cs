@@ -1,30 +1,52 @@
-﻿/*
-    purpose: ensures camera moves with player
-    usage: attached to main camera
-*/
+﻿using UnityEngine;
 
-using UnityEngine;
-
+/// <summary>
+/// Ensures camera moves with player
+/// </summary>
 public class CameraMovement : MonoBehaviour
 {
-    public float XAdjust = 0.0f; //override for adjusting X-axis of player relative to camera
-    public float YAdjust = 0.0f; //override for adjusting Y-axis of player relative to camera
-    public float ZAdjust = 0.0f; //override for adjusting Z-axis of player relative to camera
-    private GameObject probe; //reference to probe object
+    /// <summary>
+    /// Override for adjusting X-axis of player relative to camera
+    /// </summary>
+    public float XAdjust = 0.0f;
+
+    /// <summary>
+    /// Override for adjusting Y-axis of player relative to camera
+    /// </summary>
+    public float YAdjust = 0.0f;
+
+    /// <summary>
+    /// Override for adjusting Z-axis of player relative to camera
+    /// </summary>
+    public float ZAdjust = 0.0f;
+
+    /// <summary>
+    /// Speed in which the camera rotates with the player att
+    /// </summary>
+    public float rotateSpeed;
+
+    /// <summary>
+    /// Reference of object the camera is following
+    /// </summary>
+    private GeneralObject follow;
 
 
     void Start()
     {
         //purpose: captures reference to player by Tag
-        probe = GameObject.FindGameObjectWithTag("Player");
+        follow = GameObject.FindGameObjectWithTag("Player").GetComponent<GeneralObject>();
     }
 
     void Update()
     {
-        if (probe)
+        if (follow)
         {
-            Vector3 vctPlayerPos = new Vector3(probe.GetComponent<ProbeObject>().GetPosition().x + XAdjust, probe.GetComponent<ProbeObject>().GetPosition().y + YAdjust, probe.GetComponent<ProbeObject>().GetPosition().z + ZAdjust);
+            //transform position
+            Vector3 vctPlayerPos = new Vector3(follow.GetPosition().x + XAdjust, follow.GetPosition().y + YAdjust, follow.GetPosition().z + ZAdjust);
             transform.position = vctPlayerPos;
+
+            //lerp the camera roatiton for a smooth effect
+            transform.rotation = Quaternion.Lerp(transform.rotation, follow.GetRotation(), rotateSpeed * Time.deltaTime);
         }
     }
 }

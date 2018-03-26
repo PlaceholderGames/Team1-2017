@@ -1,19 +1,21 @@
-﻿/*
-    purpose: handles the damage calculation and effects generation when a ship collides with another object
-    usage: attached to solar ships, moving space stations, and the player probes
-*/
+﻿using UnityEngine;
 
-using UnityEngine;
-
+/// <summary>
+/// Handles the damage calculation and effects generation when a ship collides with another object
+/// </summary>
 public class ShipCollision : MonoBehaviour
 {
+    /// <summary>
+    /// User-specified factor to alter calculations with
+    /// </summary>
     public float damageAdjust = 1000f;
+
+    /// <summary>
+    /// Countdown to prevent constant damage calculations that result in insta-death
+    /// </summary>
     private float countdown = 0f;
 
-    void Update()
-    {
-        if (countdown >= 0.0f) countdown -= Time.deltaTime;
-    }
+    void Update() { if (countdown >= 0.0f) countdown -= Time.deltaTime; }
     
     void OnCollisionStay(Collision collision)
     {
@@ -35,5 +37,12 @@ public class ShipCollision : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Calculates a damage value with given parametres
+    /// </summary>
+    /// <param name="thisMass">Your mass</param>
+    /// <param name="thisSpeed">Your speed at time of impact</param>
+    /// <param name="themMass">Their mass</param>
+    /// <returns>Returns float as the damage calculation result</returns>
     private float CalculateDamage(float thisMass, float thisSpeed, float themMass) { return (thisMass + thisSpeed) * (themMass / damageAdjust); }
 }

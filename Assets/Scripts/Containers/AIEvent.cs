@@ -1,128 +1,161 @@
-﻿/*
-    purpose: provides encapulsation for event information for the artificial intelligence to use
-    usage: by an AI engine
-*/
+﻿using UnityEngine;
 
-using UnityEngine;
+/// <summary>
+/// Emueration of possible actions the AI can perform
+/// </summary>
+public enum AIAction { Stationary, Travel, Hostile }
 
-namespace Assets.Scripts.Containers
+/// <summary>
+/// Encapulsation for AI event data
+/// </summary>
+public class AIEvent : AIEventQueue
 {
-    //enumeration of all possible actions any subclass can do
-    public enum Action { Stationary, Travel, Hostile }
+    /// <summary>
+    /// Importance of this event
+    /// </summary>
+    private int eventPriority;
 
-    public class AIEvent : AIEventQueue
+    /// <summary>
+    /// Reference to the specific object this event is controlling
+    /// </summary>
+    private GameObject eventAssignee; 
+
+    /// <summary>
+    /// Reference to a possible focus this event should be considering
+    /// </summary>
+    private GameObject eventFocus;
+
+    /// <summary>
+    /// Enumerated action this event actually is
+    /// </summary>
+    private AIAction eventAIAction; //the action this event does
+
+    /// <summary>
+    /// How long this event should last
+    /// </summary>
+    private float eventDuration;
+
+    /// <summary>
+    /// Calculated magnitude of distance between eventAssignee and eventFocus
+    /// </summary>
+    private float distanceFromFocus;
+
+    /// <summary>
+    /// Local reference to lens flares attached to eventAssignee to be controlled by this event
+    /// </summary>
+    private GameObject[] objectsParticles;
+
+    /// <summary>
+    /// Local reference to particle systems attached to eventAssignee to be controlled by this event
+    /// </summary>
+    private GameObject[] objectsLensFlare;
+
+    /// <summary>
+    /// Speed limit for solar ship during travel
+    /// </summary>
+    private float maxSpeed;
+
+    /// <summary>
+    /// Maximum rotation percentage for solar ship turning travel
+    /// </summary>
+    private float maxRotate;
+
+    public AIEvent(int priority, GameObject assignee, GameObject[] particles, GameObject[] lens, AIAction action, GameObject focus = null, float speed = 10f, float rotation = 0.1f, float duration = float.MaxValue)
     {
-        private int eventPriority;
-        private GameObject eventAssignee; //the object this event is assigned to
-        private GameObject eventFocus; //the object the AI is focused on (used if event is a following type)
-        private Action eventAction; //the action this event does
-        private float eventDuration; //event's duration
-        private float distanceFromFocus; //magnitude of distance between object this Event belongs to and the focus
-        private GameObject[] objectsParticles;
-        private GameObject[] objectsLensFlare;
-        private float maxSpeed;
-        private float maxRotate;
-
-        public AIEvent(int priority, GameObject assignee, GameObject[] particles, GameObject[] lens, Action action, GameObject focus = null, float speed = 10f, float rotation = 0.1f, float duration = float.MaxValue)
+        eventPriority = priority;
+        eventAssignee = assignee;
+        eventFocus = focus;
+        eventAIAction = action;
+        eventDuration = duration;
+        objectsParticles = particles;
+        objectsLensFlare = lens;
+        maxSpeed = speed;
+        maxRotate = rotation;
+        if (eventAIAction == AIAction.Hostile)
         {
-            //purpose: class constructor
-            //parametres:
-                //(priority) the strength of the event
-                //(assignee) object this event is assigned too
-                //(particles) object that contains object's ParticleSystems
-                //(lens) object that contains object's LensFlare
-                //(action) the task the AI is expected to perform
-                //(focus) any targets the AI is expected to focus on (default null to indicate the event is not focused on anything)
-                //(speed) maximum speed the object can travel at (default 10f)
-                //(rotation) the degree of rotation the object can do (default 0.1f)
-                //(duration) amount of seconds the event is expected to endure for (default at maximum float value)
-
-            eventPriority = priority;
-            eventAssignee = assignee;
-            eventFocus = focus;
-            eventAction = action;
-            eventDuration = duration;
-            objectsParticles = particles;
-            objectsLensFlare = lens;
-            maxSpeed = speed;
-            maxRotate = rotation;
-            if (eventAction == Action.Hostile)
-            {
-                maxSpeed *= 20;
-                maxRotate *= 20;
-            }
-            if (eventFocus!= null) UpdateDistance();
+            maxSpeed *= 20;
+            maxRotate *= 20;
         }
+        if (eventFocus != null) UpdateDistance();
+    }
 
-        public int GetPriority() { return eventPriority; }
+    /// <summary>
+    /// Gets the event's priority
+    /// </summary>
+    /// <returns>Returns an integer that represents the importance of this event</returns>
+    public int GetPriority() { return eventPriority; }
 
-        public override bool Poll()
+    /// <summary>
+    /// Maintains the event and gets current status<para />
+    /// Allows AIEvent to be used as a independent entity or ideally as a member of the AIEventQueue data structure
+    /// </summary>
+    /// <returns>Returns boolean status of event;
+    /// true flags event as complete so that it can be destroyed and a new event enqueued
+    /// and false flags event as incomplete and will require further polling to complete</returns>
+    public override bool Poll()
+    {
+        //update event control variables
+        eventDuration -= Time.deltaTime;
+        if (eventDuration <= 0) return true; //flag event as complete due to exceeding duration
+        if (eventFocus != null) UpdateDistance(); //update distance if a focus target exists
+
+        switch (eventAIAction) //process event based on eventAIAction enum
         {
-            //purpose: maintains event and returns current status
-            //usage: can be used as a independent entity or ideally as a member of the AIEventQueue data structure
-            //returning true flags event as complete so that it can be destroyed and a new event enqueued
-            //returning false flags event as incomplete and will require further polling to complete
-
-            //update event control variables
-            eventDuration -= Time.deltaTime;
-            if (eventDuration <= 0) return true; //flag event as complete due to exceeding duration
-            if (eventFocus != null) UpdateDistance(); //update distance if a focus target exists
-
-            switch (eventAction) //process event based on eventAction enum
-            {
-                case Action.Stationary:
-                    ToggleEffects(false);
-                    return false; //flag event as incomplete
-                case Action.Travel:
-                    if (eventFocus == null) return true; //flag event for destruction if attempting Follow() when there is no focus
-                    ToggleEffects(true);
-                    return Travel();
-                case Action.Hostile:
-                    if (eventFocus == null) return true; //flag event for destruction if attempting Follow() when there is no focus
-                    ToggleEffects(true);
-                    return Travel();
-            }
-            return false;
+            case AIAction.Stationary:
+                ToggleEffects(false);
+                return false; //flag event as incomplete
+            case AIAction.Travel:
+                if (eventFocus == null) return true; //flag event for destruction if attempting Follow() when there is no focus
+                ToggleEffects(true);
+                return Travel();
+            case AIAction.Hostile:
+                if (eventFocus == null) return true; //flag event for destruction if attempting Follow() when there is no focus
+                ToggleEffects(true);
+                return Travel();
         }
+        return false;
+    }
 
-        private void UpdateDistance()
+    /// <summary>
+    /// Updates the difference in kilometres between event's assignee and event's focus
+    /// </summary>
+    private void UpdateDistance()
+    {
+        Vector3 difference = eventFocus.GetComponent<GeneralObject>().GetPosition() - eventAssignee.GetComponent<GeneralObject>().GetPosition(); //work out difference between both objects
+        distanceFromFocus = difference.magnitude;
+    }
+
+    /// <summary>
+    /// Toggles both particle systems and lens flare effects
+    /// </summary>
+    /// <param name="enabled">Toggle type (true is on, false is off)</param>
+    public void ToggleEffects(bool enabled)
+    {
+        if (objectsLensFlare != null) for (int i = 0; i < objectsLensFlare.Length; i++) objectsLensFlare[i].GetComponent<LensFlare>().enabled = enabled;
+        if (objectsParticles != null)
         {
-            //purpose: updates the difference is kilometres between the current and focus objects
-
-            Vector3 difference = eventFocus.GetComponent<GeneralObject>().GetPosition() - eventAssignee.GetComponent<GeneralObject>().GetPosition(); //work out difference between both objects
-            distanceFromFocus = difference.magnitude;
-        }
-
-        public void ToggleEffects(bool enabled)
-        {
-            //purposes: toggles particle and lens flare effect
-            //parametres:
-             //(enabled) toggle type
-            
-            if (objectsLensFlare != null) for (int i = 0; i < objectsLensFlare.Length; i++) objectsLensFlare[i].GetComponent<LensFlare>().enabled = enabled;
-            if (objectsParticles != null)
+            for (int i = 0; i < objectsParticles.Length; i++)
             {
-                for (int i = 0; i < objectsParticles.Length; i++)
-                {
-                    if (enabled && !objectsParticles[i].GetComponent<ParticleSystem>().isPlaying) objectsParticles[i].GetComponent<ParticleSystem>().Play();
-                    else if (!enabled && objectsParticles[i].GetComponent<ParticleSystem>().isPlaying) objectsParticles[i].GetComponent<ParticleSystem>().Stop();
-                }
+                if (enabled && !objectsParticles[i].GetComponent<ParticleSystem>().isPlaying) objectsParticles[i].GetComponent<ParticleSystem>().Play();
+                else if (!enabled && objectsParticles[i].GetComponent<ParticleSystem>().isPlaying) objectsParticles[i].GetComponent<ParticleSystem>().Stop();
             }
         }
-        
-        private bool Travel()
-        {
-            //purpose: directs object towards current focus
+    }
 
-            //translate object
-            Transform transform = eventAssignee.GetComponent<Transform>();
-            GeneralObject currentFocus = eventFocus.GetComponent<GeneralObject>();
-            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(currentFocus.GetPosition() - transform.position), maxRotate * Time.deltaTime);
-            transform.position += transform.forward * maxSpeed * Time.deltaTime;
+    /// <summary>
+    /// Directs the event assignee towards the event focus
+    /// </summary>
+    /// <returns>Returns as boolean where event assignee has reached its focus or not</returns>
+    private bool Travel()
+    {
+        //translate object
+        Transform transform = eventAssignee.GetComponent<Transform>();
+        GeneralObject currentFocus = eventFocus.GetComponent<GeneralObject>();
+        transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(currentFocus.GetPosition() - transform.position), maxRotate * Time.deltaTime);
+        transform.position += transform.forward * maxSpeed * Time.deltaTime;
 
-            //check if object has reached its destination
-            if ((distanceFromFocus - (currentFocus.GetSize()) * 2) <= 0) return true; //flag event as complete due to reaching destination 
-            else return false; //flag event as incomplete
-        }
-    };
-}
+        //check if object has reached its destination
+        if ((distanceFromFocus - (currentFocus.GetSize()) * 2) <= 0) return true; //flag event as complete due to reaching destination 
+        else return false; //flag event as incomplete
+    }
+};
