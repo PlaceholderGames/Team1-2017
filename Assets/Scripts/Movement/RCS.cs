@@ -1,41 +1,49 @@
-﻿/*
-    purpose: detects eradic movement and stablises ship
-    usage: probes, ships, space stations etc.
- */
+﻿using UnityEngine;
 
-using UnityEngine;
-
-namespace Assets.Scripts.Movement
+/// <summary>
+/// DO NOT USE
+/// Detects eradic movement and stablises ship
+/// </summary>
+public class RCS : MonoBehaviour
 {
-    public class RCS : MonoBehaviour
+    /// <summary>
+    /// Reference for ship the RCS has to stablise
+    /// </summary>
+    private Transform ship;
+
+    /// <summary>
+    /// Stores the last rotational data of the ship
+    /// </summary>
+    private Quaternion previous;
+
+    void Start() { ship = gameObject.GetComponent<Transform>(); }
+
+    void FixedUpdate()
     {
-        private Transform ship; //internal reference for ship the RCS has to stablise
-        private Quaternion previous; //stores the last rotational data of the ship
+        //compile normalised rotation
+        Quaternion normalisedRotation = new Quaternion();
+        normalisedRotation.x = StabliseAxis(ship.rotation.x, previous.x);
+        normalisedRotation.y = StabliseAxis(ship.rotation.y, previous.y);
+        normalisedRotation.z = StabliseAxis(ship.rotation.z, previous.z);
 
-        void Start() { ship = gameObject.GetComponent<Transform>(); }
+        //exchange rotations
+        previous = ship.rotation;
+        ship.rotation = normalisedRotation;
+    }
 
-        void FixedUpdate()
-        {
-            //compile normalised rotation
-            Quaternion normalisedRotation = new Quaternion();
-            normalisedRotation.x = StabliseAxis(ship.rotation.x, previous.x);
-            normalisedRotation.y = StabliseAxis(ship.rotation.y, previous.y);
-            normalisedRotation.z = StabliseAxis(ship.rotation.z, previous.z);
-            normalisedRotation.w = StabliseAxis(ship.rotation.w, previous.w);
-
-            //exchange rotations
-            previous = ship.rotation;
-            ship.rotation = normalisedRotation;
-        }
-
-        private float StabliseAxis(float current, float previous)
-        {
-            Debug.Log("Current " + current);
-            Debug.Log("Previous " + previous);
-            //IMPLEMENT KALMAN FILTER
-            float difference = current - previous;
-            if (difference < -0.01 || difference > 0.01) return previous;
-            else return current;
-        }
+    /// <summary>
+    /// Attempts to stablise an rotational axis
+    /// </summary>
+    /// <param name="current">Current axis value</param>
+    /// <param name="previous">Previous axis value</param>
+    /// <returns></returns>
+    private float StabliseAxis(float current, float previous)
+    {
+        Debug.Log("Current " + current);
+        Debug.Log("Previous " + previous);
+        //IMPLEMENT KALMAN FILTER
+        float difference = current - previous;
+        if (difference < -0.01 || difference > 0.01) return previous;
+        else return current;
     }
 }

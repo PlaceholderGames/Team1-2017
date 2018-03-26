@@ -1,15 +1,19 @@
-﻿/*
-    purpose: gravity physics (gravimetrics) engine
-    usage: for objects that require a simulation of the effects of gravity
-*/
+﻿using UnityEngine;
 
-using Assets.Scripts.Others;
-using UnityEngine;
-
+/// <summary>
+/// Gravity physics ("Gravimetres") engine
+/// </summary>
 public class Gravimetrics : MonoBehaviour
 {
-    private const float G = 0.667408f; //gravitational constant
-    private BodyObject[] Bodies; //container of all planetary bodies
+    /// <summary>
+    /// Gravitational constant of the universe
+    /// </summary>
+    private const float G = 0.667408f;
+
+    /// <summary>
+    /// Container of all planetary bodies
+    /// </summary>
+    private BodyObject[] Bodies; 
 
     void Start()
     {
@@ -35,13 +39,13 @@ public class Gravimetrics : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Calculates a gravimetric result optimised for when the probe is moving
+    /// </summary>
+    /// <param name="body">Body to calculate gravity with</param>
+    /// <returns>Returns a GravimetricResult object containing the data used/resulting by/from the gravity calculation</returns>
     public GravimetricResult GetGravity(BodyObject body)
     {
-        //purpose: calculates a gravimetric result optimised for when the probe is moving
-        //parametres:
-            //(body) body to calculate gravity with
-        //usage: for when the probe is moving and needs a GravityProperties result for application elsewhere
-
         Vector3 direction = body.GetPosition() - GetComponent<GeneralObject>().GetPosition(); //work out direction between both objects
         float distance = direction.magnitude; //get distance from direction
         float magnitude = G * ((body.GetMass() * GetComponent<GeneralObject>().GetMass()) / Mathf.Pow(distance, 2)); //calculates the magnitude of the gravitational force

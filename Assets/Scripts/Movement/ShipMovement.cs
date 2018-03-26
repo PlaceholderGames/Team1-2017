@@ -1,23 +1,64 @@
-﻿/*
-    purpose: handles probe movement and gravity application
-    usage: attached to probe
-*/
-
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
+/// <summary>
+/// Handles probe movement and slipstreams gravity application
+/// </summary>
 public class ShipMovement : MonoBehaviour
 {
-    public float moveSpeed = 10000; //normal move speed
-    public float superSpeed = 10000; //warped speed
-    public float normalFuelRate = 1f; //fuel consumption rate for normal move speed
-    public float superFuelRate = 2.5f; //fuel consumption rate for warped speed
-    public GameObject lensflare; //reference to lens flare
-    public GameObject particles; //reference to particles
-    public GameObject speedometer; //reference to speedometer object
-    public GameObject fuelcounter; //reference to fuelcounter object
+    /// <summary>
+    /// Normal move speed
+    /// </summary>
+    public float moveSpeed = 10000; 
+
+    /// <summary>
+    /// Warped speed
+    /// </summary>
+    public float superSpeed = 10000;
+
+    /// <summary>
+    /// Fuel consumption rate for normal move speed
+    /// </summary>
+    public float normalFuelRate = 1f; 
+
+    /// <summary>
+    /// Fuel consumption rate for warped speed
+    /// </summary>
+    public float superFuelRate = 2.5f; 
+
+    /// <summary>
+    /// Reference to probe's engine lens flare
+    /// </summary>
+    public GameObject lensflare;
+
+    /// <summary>
+    /// Reference to probe's engine particle system
+    /// </summary>
+    public GameObject particles;
+
+    /// <summary>
+    /// Reference to speedometer object
+    /// </summary>
+    public GameObject speedometer;
+
+    /// <summary>
+    /// Reference to fuelcounter object
+    /// </summary>
+    public GameObject fuelcounter;
+
+    /// <summary>
+    /// Previous speed the probe was at
+    /// </summary>
     private float previousSpeed = 0f;
+
+    /// <summary>
+    /// Local reference of probe's variable object
+    /// </summary>
     private ProbeObject probe;
+
+    /// <summary>
+    /// Local reference of probe's rigidbody
+    /// </summary>
     private Rigidbody rb;
 
     void Start()

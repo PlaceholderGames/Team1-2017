@@ -1,17 +1,38 @@
-﻿/*
-    purpose: handles probe movement (rotation to left and right)
-    usage: attached to probe
-*/
+﻿using UnityEngine;
 
-using UnityEngine;
-
+/// <summary>
+/// Handles probe rotational (angular) movement
+/// </summary>
 public class ShipRotation : MonoBehaviour
 {
+    /// <summary>
+    /// I think its the speed at which the probe turns based on mouse cursor??? (why didn't you comment these Andrea?)
+    /// </summary>
     public float lookSpeed;
+
+    /// <summary>
+    /// Speed at which the probe rotates
+    /// </summary>
     public float rotateSpeed;
+
+    /// <summary>
+    /// 
+    /// </summary>
     public float centerRadius;
+
+    /// <summary>
+    /// Seems to be some sort of override adjustment
+    /// </summary>
     public float controlVar;
-    private GameObject probe; //reference to probe object
+
+    /// <summary>
+    /// Local reference to probe object
+    /// </summary>
+    private GameObject probe; 
+
+    /// <summary>
+    /// Center of the screen's resolution
+    /// </summary>
     Vector2 screenCenter;
 
     void Start()
