@@ -60,6 +60,12 @@ public class ShipMovement : MonoBehaviour
     /// Local reference of probe's rigidbody
     /// </summary>
     private Rigidbody rb;
+    
+    /// <summary>
+    /// Difference in spatial position between ship and camera chasing it
+    /// </summary>
+    [SerializeField]
+    private Vector3 cameraOffset = new Vector3(0, 1, -4);
 
     void Start()
     {
@@ -149,5 +155,12 @@ public class ShipMovement : MonoBehaviour
 
         //store current speed to check in the next FixedUpdate call so that the script can ensure the slowdown function doesn't reverse the probe
         previousSpeed = probe.GetCurrentSpeed();
+
+        MoveCamera();
     }
+    
+    /// <summary>
+    /// Allows the camera to chase the ship at all times
+    /// </summary>
+    void MoveCamera() { transform.GetChild(0).localPosition = cameraOffset; }
 }
