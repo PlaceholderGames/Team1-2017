@@ -19,6 +19,8 @@ public class ShipCollision : MonoBehaviour
     
     void OnCollisionStay(Collision collision)
     {
+        if (collision.collider.gameObject.layer == LayerMask.NameToLayer("Projectile")) return;
+
         if (countdown <= 0f && !collision.collider.GetComponent<ProjectileObject>())
         {
             //get local references of collided objects

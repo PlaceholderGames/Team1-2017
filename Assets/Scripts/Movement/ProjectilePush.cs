@@ -13,12 +13,13 @@ class ProjectilePush : MonoBehaviour
     void FixedUpdate()
     {
         GetComponent<Rigidbody>().AddForce(transform.forward * GetComponent<ProjectileObject>().ForceForSpeed);
-        //GetComponent<Rigidbody>().AddRelativeForce(0, 0, (GetComponent<ProjectileObject>().ForceForSpeed + GetComponent<ProjectileObject>().ParentSpeed) * Time.deltaTime, ForceMode.Acceleration); //push projectile with relative force 
         GetComponent<ProjectileObject>().Fuel -= Consumption;
     }
 
     void OnCollisionEnter(Collision collision)
     {
+        if (collision.collider.gameObject.layer == LayerMask.NameToLayer("Player")) return;
+
         //get local references of collided objects
         GeneralObject objThem = collision.collider.GetComponent<GeneralObject>();
         ProjectileObject objThis = GetComponent<ProjectileObject>();
