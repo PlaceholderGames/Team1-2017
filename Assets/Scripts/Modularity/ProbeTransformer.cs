@@ -33,6 +33,9 @@ static class ProbeTransformer
 
         for (int i = 0; i < GameObject.FindGameObjectsWithTag("ProbeSensor").Length; i++)
             GameObject.FindGameObjectsWithTag("ProbeSensor")[i].transform.localScale = new Vector3(0.425f, 0.425f, 0.425f);
+
+        for (int i = 0; i < GameObject.FindGameObjectsWithTag("ProbeWing").Length; i++)
+            GameObject.FindGameObjectsWithTag("ProbeWing")[i].transform.localScale = new Vector3(1.0f, 0.7f, 1.0f);
     }
 
     /// <summary>
@@ -63,6 +66,9 @@ static class ProbeTransformer
 
         for (int i = 0; i < GameObject.FindGameObjectsWithTag("ProbeSensor").Length; i++)
             GameObject.FindGameObjectsWithTag("ProbeSensor")[i].transform.localScale = new Vector3(0.45f, 0.45f, 0.45f);
+
+        for (int i = 0; i < GameObject.FindGameObjectsWithTag("ProbeWing").Length; i++)
+            GameObject.FindGameObjectsWithTag("ProbeWing")[i].transform.localScale = new Vector3(1.0f, 0.8f, 1.0f);
     }
 
     /// <summary>
@@ -94,6 +100,9 @@ static class ProbeTransformer
         for (int i = 0; i < GameObject.FindGameObjectsWithTag("ProbeSensor").Length; i++)
             GameObject.FindGameObjectsWithTag("ProbeSensor")[i].transform.localScale = new Vector3(0.475f, 0.475f, 0.475f);
 
+        for (int i = 0; i < GameObject.FindGameObjectsWithTag("ProbeWing").Length; i++)
+            GameObject.FindGameObjectsWithTag("ProbeWing")[i].transform.localScale = new Vector3(1.0f, 0.9f, 1.0f);
+
     }
 
     /// <summary>
@@ -124,5 +133,8 @@ static class ProbeTransformer
 
         for (int i = 0; i < GameObject.FindGameObjectsWithTag("ProbeSensor").Length; i++)
             GameObject.FindGameObjectsWithTag("ProbeSensor")[i].transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
+
+        for (int i = 0; i < GameObject.FindGameObjectsWithTag("ProbeWing").Length; i++)
+            GameObject.FindGameObjectsWithTag("ProbeWing")[i].transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
     }
 }
