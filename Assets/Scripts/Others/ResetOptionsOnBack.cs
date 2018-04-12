@@ -24,18 +24,17 @@ public class ResetOptionsOnBack : MonoBehaviour
     void Clicked()
     {
 
-        //Panel1.GetComponent<CanvasGroup>().alpha = 1.0f;
-        //Panel2.GetComponent<CanvasGroup>().alpha = 0.0f;
-        //Panel3.GetComponent<CanvasGroup>().alpha = 0.0f;
+        Panel1.GetComponent<CanvasGroup>().alpha = 1.0f;
+        Panel2.GetComponent<CanvasGroup>().alpha = 0.0f;
+        Panel3.GetComponent<CanvasGroup>().alpha = 0.0f;
 
         Button1.interactable = false;
         Button2.interactable = true;
         Button3.interactable = true;
 
+        Panel1.GetComponent<Animator>().SetTrigger("Idle");
         Panel2.GetComponent<Animator>().SetTrigger("Idle");
         Panel3.GetComponent<Animator>().SetTrigger("Idle");
-
-        Debug.Log("TEST");
         
     }
 }

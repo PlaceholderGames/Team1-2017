@@ -172,3 +172,81 @@ V1.71.5:
 - Options to be added to the various Options panels
 - Patch notes to be pulled from server
 - Credit text is still incomplete and just placeholder
+
+
+V1.71.7:
+
+- Key-Bindings Panel now renamed and re-purposed to Patch Notes
+- Patch notes are now pulled from the server*
+- Patch notes are displayed in a scrollable text box*
+
+Known Issues:
+
+-When returning to the Options panel from the main menu, and then switch a different panel in the Option panel, the panel can disappear
+- Patch notes do not currently update automatically, as they are currently pulled from a .txt file on a server which has to be manually uploaded, 
+and the link in the script needs to be changed too.
+- Scrollbar does not scroll the text
+
+Upcoming Development:
+
+- Options to be added to the various Options panels
+- Credit text is still incomplete and just placeholder
+
+
+V1.71.8:
+
+- Scrollbar has scrapped, instead player and click and drag on the patch notes or use the scroll-wheel to scroll
+- Adjusted the colour of the background of the patch notes in-panel to match the colour theme of the other Options panels.
+
+Known Issues:
+
+- When returning to the Options panel from the main menu, and then switch a different panel in the Option panel, the panel can disappear
+- Patch notes do not currently update automatically, as they are currently pulled from a .txt file on a server which has to be manually uploaded, 
+and the link in the script needs to be changed too.
+
+Upcoming Development:
+
+- Options to be added to the various Options panels
+- Credit and help text is still incomplete and just placeholder
+
+
+V1.71.8.5:
+
+- Patch notes now update automatically from an external webpage
+
+
+V1.71.9:
+
+- Renamed the Camera panel to Interface to better reflect the options included in the panel
+- Camera distance and particle volume sliders along with a lens flare toggle implemented in the Interface panel*
+- Help panel now tilts the back and credits button
+- When returning to the Options panel from the main menu and switching between panels, 
+there is a dramatically lower chance of the panel disappearing [THIS ISSUE WILL CONTINUE TO BE INVESTIGATED]
+
+Upcoming Development:
+
+- Credit and help text is still incomplete and just placeholder
+- Options in the Interface panel are not currently 'wired' up, waiting to collaborate with other team members
+
+
+V1.72:
+
+- Added changes from V1.71 - V.1.71.9
+- Added ability to exit scrolling credits by pressing any key instead of clicking
+- Min and max values for the sliders in the Interface panel, have been changed to the following; Camera
+- Distance 0-5, Particle Volume 0-1000
+
+Upcoming Development:
+
+- Credit and help text is still incomplete and just placeholder
+- Options in the Interface panel are not currently 'wired' up, waiting to collaborate with other team members
+
+
+V1.72.1 [FEATURE COMPLETE - SIGNED OFF]
+
+- Menu is now feature complete
+- All remaining tasks will be completed by the relevant team members
+
+
+
+
