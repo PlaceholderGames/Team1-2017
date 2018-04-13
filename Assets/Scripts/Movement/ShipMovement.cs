@@ -9,7 +9,7 @@ public class ShipMovement : MonoBehaviour
     /// <summary>
     /// Normal move speed
     /// </summary>
-    public float moveSpeed = 10000; 
+    public float moveSpeed = 10000;
 
     /// <summary>
     /// Warped speed
@@ -19,12 +19,12 @@ public class ShipMovement : MonoBehaviour
     /// <summary>
     /// Fuel consumption rate for normal move speed
     /// </summary>
-    public float normalFuelRate = 1f; 
+    public float normalFuelRate = 1f;
 
     /// <summary>
     /// Fuel consumption rate for warped speed
     /// </summary>
-    public float superFuelRate = 2.5f; 
+    public float superFuelRate = 2.5f;
 
     /// <summary>
     /// Reference to probe's engine lens flare
@@ -149,5 +149,7 @@ public class ShipMovement : MonoBehaviour
 
         //store current speed to check in the next FixedUpdate call so that the script can ensure the slowdown function doesn't reverse the probe
         previousSpeed = probe.GetCurrentSpeed();
+        
+
     }
 }
