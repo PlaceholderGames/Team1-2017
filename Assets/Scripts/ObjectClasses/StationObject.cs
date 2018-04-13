@@ -3,7 +3,6 @@
     usage: only used on planets and asteroids
 */
 
-using UnityEditor;
 using UnityEngine;
 
 public class StationObject : GeneralObject
@@ -13,7 +12,7 @@ public class StationObject : GeneralObject
     {
         //load overloaded explosion types
         Explosions = new GameObject[1];
-        Explosions[0] = AssetDatabase.LoadAssetAtPath("Assets/Effects/Particles/SimpleParticlePack/Resources/Explosions/ExplosionLarge02.prefab", typeof(GameObject)) as GameObject;
+        Explosions = GameObject.FindGameObjectWithTag("Canvas").GetComponent<StationExplosionPrefabProvider>().Explosions;
     }
 
     //events
