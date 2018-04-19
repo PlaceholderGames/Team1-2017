@@ -1,5 +1,5 @@
 ﻿/*
-    purpose: variables and events class for planetary bodies and asteroidal objects
+    purpose: variables and events class for planetary bodies
     usage: only used on planets and asteroids
 */
 
@@ -21,7 +21,7 @@ public class BodyObject : GeneralObject
     private void Rotate()
     {
         //purpose: rotates the planetary body with the class's specified rotation speed and rotation direction
-
+        
         if (OrbitRotation == ROTATION.clockwise) transform.Rotate(Vector3.up, RotationSpeed * Time.deltaTime);
         else transform.Rotate(Vector3.down, RotationSpeed * Time.deltaTime);
     }
