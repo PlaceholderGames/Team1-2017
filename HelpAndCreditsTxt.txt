@@ -1,0 +1,37 @@
+Spaceflight controls
+• W – increase impulse (forward)
+• S – decrease impulse (slow down)
+• Space – fires weapon (must momentarily charge, so key must be held)
+• Hold W + Shift – emergency impulse boost (fuel consumption-intensive super
+speed for emergencies like getting caught in a gravity well)
+• Mouse
+- Cursor to left or right – banks the probe to desired direction
+- Left click (when pointing to an object) – gets object’s details (name
+& population)
+• F – interact with object (not for paying respects, sorry)
+• Q – admin privilege (allows emergency stop)
+• 1 – test probe in Tier I configuration
+• 2 – test probe in Tier II configuration
+• 3 – test probe in Tier III configuration
+• 4 – test probe in Tier IV configuration
+• 5 – test drilling minigame
+
+Minigame controls
+• W – accelerate
+• S – decelerate
+• Mouse
+- Cursor – points direction to move in
+• A – fine pitch left
+• D – fine pitch right
+• 5 – return to solar system
+
+***CREDITS***
+
+• Solar system and asteroids: Khalid, Kyran
+• Physics: Khalid
+• Probe control & ship AI: Khalid
+• Minigame: Ben
+• Game UI: Joshua
+• Main menu: Luke
+
+Report issues to 15005070@students.southwales.ac.uk
