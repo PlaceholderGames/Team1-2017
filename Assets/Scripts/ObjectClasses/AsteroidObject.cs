@@ -34,7 +34,7 @@ public class AsteroidObject : GeneralObject
     override public void DerivedStart()
     {
         //randomise the scale of the asteroid
-        gameObject.transform.localScale *= 1f + Random.Range(0.0f, 1f);
+        gameObject.transform.localScale *= 1f + Random.Range(-0.5f, 1.5f);
 
         //generate starting rotation of asteroid
         gameObject.transform.rotation = new Quaternion(Random.Range(-180, 180), Random.Range(-180, 180), Random.Range(-180, 180), Random.Range(-180, 180));

@@ -8,7 +8,7 @@ public class PullPatchNotes : MonoBehaviour
 {
     void Start()
     {
-        StartCoroutine(GetText());
+        //StartCoroutine(GetText());
     }
 
     IEnumerator GetText()

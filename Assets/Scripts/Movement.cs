@@ -6,6 +6,7 @@
 
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class Movement : MonoBehaviour
 {
@@ -29,6 +30,8 @@ public class Movement : MonoBehaviour
     void FixedUpdate()
     {
         //purpose: conducts probe movement if certain key(s) are pressed
+
+        if (Input.GetKey(KeyCode.Escape)) SceneManager.LoadScene(1);
 
         if (fuel > 0)
         {

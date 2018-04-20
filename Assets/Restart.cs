@@ -4,10 +4,12 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 
+
 public class Restart : MonoBehaviour
 {
-   public ProbeObject Probe;
-   public GameObject fadeBlack;
+    public ProbeObject Probe;
+    public GameObject fadeBlack;
+    public GameObject deadText;
 
     void Start()
     {
@@ -20,6 +22,7 @@ public class Restart : MonoBehaviour
     {
         if (Probe == null)
         {
+            deadText.SetActive(true);
             this.GetComponent<CanvasGroup>().alpha = 1;
             gameObject.GetComponent<Button>().onClick.AddListener(Restartgame);
         }
@@ -27,7 +30,9 @@ public class Restart : MonoBehaviour
 
     void Restartgame()
     {
+        deadText.SetActive(false);
         fadeBlack.GetComponent<Animator>().SetTrigger("Fade");
+       
     }
 
 }
