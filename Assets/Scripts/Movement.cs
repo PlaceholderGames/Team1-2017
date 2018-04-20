@@ -13,6 +13,10 @@ public class Movement : MonoBehaviour
     public float superSpeed = 10000; //warped speed
     public float normalFuelRate = 1f; //fuel consumption rate for normal move speed
     public float superFuelRate = 2.5f; //fuel consumption rate for warped speed
+    public GameObject lensflare; //reference to lens flare
+    public GameObject particles; //reference to particles
+    public GameObject speedometer; //reference to speedometer object
+    public GameObject fuelcounter; //reference to fuelcounter object
     private float previousSpeed = 0f;
     private Rigidbody rb;
     private float fuel = 100;
@@ -35,6 +39,10 @@ public class Movement : MonoBehaviour
 
                 //update fuel
                 fuel -= superFuelRate;
+
+                //enable engine effects
+                lensflare.GetComponent<LensFlare>().brightness = 1f;
+                particles.GetComponent<ParticleSystem>().Play();
             }
             else if (Input.GetKey(KeyCode.S)) //if key S is held
             {
@@ -43,12 +51,20 @@ public class Movement : MonoBehaviour
 
                     //update fuel
                     fuel -= superFuelRate;
+
+                    //disable engine effects
+                    lensflare.GetComponent<LensFlare>().brightness = 0f;
+                    particles.GetComponent<ParticleSystem>().Stop();
                 
             }
             else if (Input.GetKey(KeyCode.Q)) //if key Q is held
             {
                 //bring probe to a stop
                 rb.velocity = new Vector3(0, 0, 0);
+
+                //disable engine effects
+                lensflare.GetComponent<LensFlare>().brightness = 0f;
+                particles.GetComponent<ParticleSystem>().Stop();
             }
             else if (Input.GetKey(KeyCode.W)) //if key W is held
             {
@@ -57,7 +73,23 @@ public class Movement : MonoBehaviour
 
                 //update fuel
                 fuel -= normalFuelRate;
+
+                //enable engine effects
+                lensflare.GetComponent<LensFlare>().brightness = 0.75f;
+                particles.GetComponent<ParticleSystem>().Play();
             }
+            else
+            {
+                //disable all engine effects
+                lensflare.GetComponent<LensFlare>().brightness = 0;
+                particles.GetComponent<ParticleSystem>().Stop();
+            }
+        }
+        else
+        {
+            //disable all engine effects
+            lensflare.GetComponent<LensFlare>().brightness = 0;
+            particles.GetComponent<ParticleSystem>().Stop();
         }
     }
 }

@@ -4,13 +4,16 @@ using UnityEngine;
 
 public class Spawn : MonoBehaviour {
 
+    
     public GameObject[] objects;
     public Vector3 center;
     public Vector3 size;
     int B = -320;
-	// Use this for initialization
-	void Start ()
+   
+    // Use this for initialization
+    void Start ()
     {
+       
         int Difficulty = 3;
         // Need to get a code that grabs the value of the collison, cant do this until internet is back
         if (Difficulty == 1)
@@ -37,7 +40,7 @@ public class Spawn : MonoBehaviour {
 	// Update is called once per frame
 	void Update ()
     {
-
+    
       
 
     }
@@ -105,5 +108,6 @@ public class Spawn : MonoBehaviour {
         Gizmos.color = new Color(1, 0, 0, 0.5f);
         Gizmos.DrawCube(center, size);
     }
+
 
 }

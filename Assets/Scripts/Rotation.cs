@@ -41,13 +41,13 @@ public class Rotation : MonoBehaviour
         if (Input.GetKey(KeyCode.A))
         {
             //apply torque on axis Z based on rotation speed value -> rotate towards left
-            probe.GetComponent<Rigidbody>().AddRelativeTorque(0, 0, 1.5f * rotateSpeed * Time.deltaTime);
+            probe.GetComponent<Rigidbody>().AddRelativeTorque(0, 0, 15f * rotateSpeed * Time.deltaTime);
         }
         //else if key D is help
         else if (Input.GetKey(KeyCode.D))
         {
             //apply torque on axis Z based on rotation speed value -> rotate towards right
-            probe.GetComponent<Rigidbody>().AddRelativeTorque(0, 0, 1.5f * -rotateSpeed * Time.deltaTime);
+            probe.GetComponent<Rigidbody>().AddRelativeTorque(0, 0, 15f * -rotateSpeed * Time.deltaTime);
         }
 
         //////////////////////////////////////
