@@ -8,6 +8,7 @@ public class Healthbar : MonoBehaviour {
     private ProbeObject probe;
     public Image CurrentProbeHealth;
     public Text HealthPercentage;
+  
 
     private float maxHitpoint = 100;
 
@@ -24,5 +25,7 @@ public class Healthbar : MonoBehaviour {
         CurrentProbeHealth.rectTransform.localScale = new Vector3(ratio, 1, 1);
         HealthPercentage.text = (ratio*100).ToString() + '%';
     }
+
+    
     
 }

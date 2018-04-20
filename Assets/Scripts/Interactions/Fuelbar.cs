@@ -11,6 +11,8 @@ public class Fuelbar : MonoBehaviour {
 
     private float StartFuel;
     private float MaxFuel;
+    private float ratio;
+    private float ZeroFuel = 0;
 
     private void Start()
     {
@@ -23,10 +25,20 @@ public class Fuelbar : MonoBehaviour {
     {
         float pFuel = probe.GetFuel();
         if (pFuel < 0) pFuel = 0;
-        float ratio = pFuel / MaxFuel;
+        ratio = pFuel / MaxFuel;
         CurrentProbeFuel.rectTransform.localScale = new Vector3(ratio, 1, 1);
         FuelPercentage.text = ((int)System.Math.Round((double)(ratio*100))).ToString() + '%';
+
+        death();
     }
 
+    private void death()
+    {
+        if (GameObject.FindGameObjectWithTag("Player") == null)
+        {
+            ratio = ZeroFuel;
+            FuelPercentage.text = ZeroFuel.ToString() + '%';
+        }
+    }
 
 }
