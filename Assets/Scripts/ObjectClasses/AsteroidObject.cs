@@ -101,8 +101,11 @@ public class AsteroidObject : GeneralObject
     /// </summary>
     private void Move()
     {
-        Vector3 distance = (Target.transform.position - transform.position).normalized;
-        transform.position = transform.position + distance * 10f * Time.deltaTime;
+        if (gameObject)
+        {
+            Vector3 distance = (Target.transform.position - transform.position).normalized;
+            transform.position = transform.position + distance * 10f * Time.deltaTime;
+        }
     }
 
     /// <summary>

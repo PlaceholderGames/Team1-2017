@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CreditsTransToMenu : MonoBehaviour
-{
+public class CreditsTransToMenu : MonoBehaviour {
 
     public GameObject MainMenuPanel;
 

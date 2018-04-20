@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 
 public class PauseScreen : MonoBehaviour {
 
@@ -8,7 +10,7 @@ public class PauseScreen : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.P))
         {
             if (gamePaused)
                 Resume();
@@ -19,13 +21,15 @@ public class PauseScreen : MonoBehaviour {
 
     public void Resume()
     {
+        pauseMenuUI.GetComponent<Animator>().SetTrigger("Close");
         pauseMenuUI.SetActive(false);
-       // Time.timeScale = 1f;
+        // Time.timeScale = 1f;
         gamePaused = false;
     }
 
     void Pause()
     {
+        pauseMenuUI.GetComponent<Animator>().SetTrigger("Open");
         pauseMenuUI.SetActive(true);
        // Time.timeScale = 0f;
         gamePaused = true;
