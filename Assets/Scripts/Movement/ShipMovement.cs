@@ -65,12 +65,14 @@ public class ShipMovement : MonoBehaviour
     /// Difference in spatial position between ship and camera chasing it
     /// </summary>
     [SerializeField]
-    private Vector3 cameraOffset = new Vector3(0, 1, -4);
+    private Vector3 cameraOffset = new Vector3(0, 1.25f, -4);
+
 
     void Start()
     {
         probe = GameObject.FindGameObjectWithTag("Player").GetComponent<ProbeObject>();
         rb = GameObject.FindGameObjectWithTag("Player").GetComponent<Rigidbody>();
+        rb.position = GlobalObject.Instance.Position;
     }
 
     void FixedUpdate()

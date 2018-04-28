@@ -1,18 +1,19 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
-public class Timer : MonoBehaviour {
+public class Timer : MonoBehaviour
+{
     float timeRemaining = 80;
     // Use this for initialization
-    void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
+    void Start()
+    {
+
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
         timeRemaining -= Time.deltaTime;
         gameObject.GetComponent<Text>().text = timeRemaining.ToString();
         if (timeRemaining > 0)
@@ -27,7 +28,8 @@ public class Timer : MonoBehaviour {
             {
                 Destroy(GameObjects[i]);
             }
-           // SceneManager.LoadScene("Whatever main game is called");
+            
+            SceneManager.LoadScene(1);
         }
     }
 
